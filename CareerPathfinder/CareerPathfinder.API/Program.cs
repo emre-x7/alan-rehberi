@@ -27,6 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(QuestionnaireMappingProfile));
 builder.Services.AddAutoMapper(typeof(AuthenticationMappingProfile));
+builder.Services.AddAutoMapper(typeof(DepartmentMappingProfile));
 
 //  Swagger + JWT Auth ekle
 builder.Services.AddSwaggerGen(options =>
@@ -114,7 +115,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.WithOrigins("https://localhost:3000", "http://localhost:3000")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

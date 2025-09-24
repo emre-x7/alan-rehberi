@@ -24,6 +24,7 @@ namespace CareerPathfinder.Core.Mappings
 
             // Questionnaire -> QuestionnaireResultDto
             CreateMap<Questionnaire, QuestionnaireResultDto>()
+                .ForMember(dest => dest.QuestionnaireId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Name))
                 .ForMember(dest => dest.CareerResults, opt => opt.MapFrom(src => src.TestResults));
         }
