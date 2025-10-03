@@ -1,4 +1,4 @@
-import { User } from "../../types/auth";
+import { Gender, User } from "../../types/auth";
 
 export interface AuthState {
   user: User | null;
@@ -19,4 +19,8 @@ export interface RegisterData {
   lastName: string;
   password: string;
   confirmPassword: string;
+  university: string;
+  department: string;
+  academicYear: number;
+  gender: Gender;
 }

@@ -1,9 +1,19 @@
+export enum Gender {
+  Male = 1,
+  Female = 2,
+  PreferNotToSay = 3,
+}
+
 export interface RegisterRequest {
   email: string;
   firstName: string;
   lastName: string;
   password: string;
   confirmPassword: string;
+  university: string;
+  department: string;
+  academicYear: number;
+  gender: Gender;
 }
 
 export interface LoginRequest {
@@ -18,6 +28,10 @@ export interface AuthResponse {
   email: string;
   firstName: string;
   lastName: string;
+  university: string;
+  department: string;
+  academicYear: number;
+  gender: Gender;
 }
 
 export interface User {
@@ -25,5 +39,11 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
+  university: string;
+  department: string;
+  academicYear: number;
+  gender: Gender;
   createdAt: string;
+  lastLoginAt?: string;
+  isActive: boolean;
 }

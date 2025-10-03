@@ -1,4 +1,3 @@
-// C:\Users\emreo\Desktop\CareerPathfinder\frontend\src\services\api\resultsApi.ts
 import { api } from "./baseApi";
 import { QuestionnaireResultDto, CareerResultDto } from "../../types/results";
 

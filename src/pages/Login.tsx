@@ -5,6 +5,7 @@ import { loginUser } from "../store/auth/authSlice";
 import { useLoginForm } from "../hooks/useAuthForms";
 import FormInput from "../components/forms/FormInput";
 import SubmitButton from "../components/forms/SubmitButton";
+import { GraduationCap, ArrowRight, Sparkles } from "lucide-react";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -25,47 +26,93 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <form
-          className="mt-8 space-y-6 bg-white p-8 rounded-lg shadow-md"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {error}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 fade-in">
+        {/* Logo ve Başlık */}
+        <div className="text-center">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <GraduationCap className="h-8 w-8 text-white" />
+              </div>
+              <div className="absolute -top-1 -right-1">
+                <div className="w-6 h-6 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
+                  <Sparkles className="h-3 w-3 text-white" />
+                </div>
+              </div>
             </div>
-          )}
-
-          <FormInput
-            label="E-posta"
-            type="email"
-            register={register}
-            name="email"
-            error={errors.email}
-            placeholder="ornek@email.com"
-          />
-
-          <FormInput
-            label="Şifre"
-            type="password"
-            register={register}
-            name="password"
-            error={errors.password}
-            placeholder="Şifrenizi giriniz"
-          />
-
-          <SubmitButton text="Giriş Yap" isLoading={isLoading} />
-
-          <div className="text-center">
-            <Link
-              to="/register"
-              className="text-primary-600 hover:text-primary-500"
-            >
-              Hesabınız yok mu? Kayıt olun
-            </Link>
           </div>
-        </form>
+          <h1 className="text-3xl font-bold text-slate-900 mb-3">
+            Tekrar Hoş Geldin!
+          </h1>
+          <p className="text-slate-600">
+            Kariyer yolculuğuna kaldığın yerden devam et
+          </p>
+        </div>
+
+        {/* Form */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-strong border border-slate-200/60 p-8">
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            {error && (
+              <div className="bg-rose-50 border-2 border-rose-200 text-rose-700 px-4 py-3 rounded-xl flex items-center">
+                <svg
+                  className="h-5 w-5 mr-2 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-5">
+              <FormInput
+                label="E-posta Adresi"
+                type="email"
+                register={register}
+                name="email"
+                error={errors.email}
+                placeholder="ornek@universite.edu.tr"
+              />
+
+              <FormInput
+                label="Şifre"
+                type="password"
+                register={register}
+                name="password"
+                error={errors.password}
+                placeholder="••••••••"
+              />
+            </div>
+
+            <div className="pt-2">
+              <SubmitButton text="Giriş Yap" isLoading={isLoading} />
+            </div>
+
+            <div className="text-center pt-4 border-t border-slate-200/60">
+              <p className="text-sm text-slate-600 mb-3">
+                Henüz hesabın yok mu?
+              </p>
+              <Link
+                to="/register"
+                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-all duration-300 group"
+              >
+                Hemen Kayıt Ol
+                <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </form>
+        </div>
+
+        {/* Alt Bilgi */}
+        <p className="text-center text-xs text-slate-500">
+          Güvenli ve şifreli bağlantı ile korunuyorsun
+        </p>
       </div>
     </div>
   );

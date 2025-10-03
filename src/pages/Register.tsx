@@ -5,6 +5,8 @@ import { registerUser } from "../store/auth/authSlice";
 import { useRegisterForm } from "../hooks/useAuthForms";
 import FormInput from "../components/forms/FormInput";
 import SubmitButton from "../components/forms/SubmitButton";
+import { RegisterFormData } from "../utils/validationSchemas";
+import { GraduationCap, ArrowRight, UserPlus, Sparkles } from "lucide-react";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -17,80 +19,218 @@ const Register: React.FC = () => {
     formState: { errors },
   } = useRegisterForm();
 
-  const onSubmit = async (data: any) => {
-    const result = await dispatch(registerUser(data));
-    if (registerUser.fulfilled.match(result)) {
-      navigate("/");
-    }
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      const result = await dispatch(registerUser(data));
+      if (registerUser.fulfilled.match(result)) {
+        navigate("/login");
+      }
+    } catch (error) {}
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <form
-          className="mt-8 space-y-6 bg-white p-8 rounded-lg shadow-md"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {error}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl w-full space-y-8 fade-in">
+        {/* Logo ve Başlık */}
+        <div className="text-center">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl flex items-center justify-center shadow-lg">
+                <UserPlus className="h-8 w-8 text-white" />
+              </div>
+              <div className="absolute -top-1 -right-1">
+                <div className="w-6 h-6 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
+                  <Sparkles className="h-3 w-3 text-white" />
+                </div>
+              </div>
             </div>
-          )}
-
-          <FormInput
-            label="E-posta"
-            type="email"
-            register={register}
-            name="email"
-            error={errors.email}
-            placeholder="ornek@email.com"
-          />
-
-          <FormInput
-            label="Ad"
-            register={register}
-            name="firstName"
-            error={errors.firstName}
-            placeholder="Adınız"
-          />
-
-          <FormInput
-            label="Soyad"
-            register={register}
-            name="lastName"
-            error={errors.lastName}
-            placeholder="Soyadınız"
-          />
-
-          <FormInput
-            label="Şifre"
-            type="password"
-            register={register}
-            name="password"
-            error={errors.password}
-            placeholder="Şifrenizi giriniz"
-          />
-
-          <FormInput
-            label="Şifre Tekrar"
-            type="password"
-            register={register}
-            name="confirmPassword"
-            error={errors.confirmPassword}
-            placeholder="Şifrenizi tekrar giriniz"
-          />
-
-          <SubmitButton text="Kayıt Ol" isLoading={isLoading} />
-
-          <div className="text-center">
-            <Link
-              to="/login"
-              className="text-primary-600 hover:text-primary-500"
-            >
-              Zaten hesabınız var mı? Giriş yapın
-            </Link>
           </div>
-        </form>
+          <h1 className="text-3xl font-bold text-slate-900 mb-3">
+            Kariyer Yolculuğuna Başla
+          </h1>
+          <p className="text-slate-600">
+            Sana en uygun kariyer yolunu keşfetmek için aramıza katıl
+          </p>
+        </div>
+
+        {/* Form */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-strong border border-slate-200/60 p-8">
+          <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
+            {error && (
+              <div className="bg-rose-50 border-2 border-rose-200 text-rose-700 px-4 py-3 rounded-xl flex items-center">
+                <svg
+                  className="h-5 w-5 mr-2 flex-shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                {error}
+              </div>
+            )}
+
+            {/* Kişisel Bilgiler */}
+            <div className="space-y-6">
+              <div className="pb-4 border-b border-slate-200/60">
+                <h3 className="text-lg font-semibold text-slate-900 flex items-center">
+                  <span className="w-2 h-6 bg-blue-500 rounded-full mr-3"></span>
+                  Kişisel Bilgiler
+                </h3>
+                <p className="text-sm text-slate-600 mt-1">Seni tanıyalım</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <FormInput
+                  label="Ad"
+                  register={register}
+                  name="firstName"
+                  error={errors.firstName}
+                  placeholder="Adın"
+                />
+                <FormInput
+                  label="Soyad"
+                  register={register}
+                  name="lastName"
+                  error={errors.lastName}
+                  placeholder="Soyadın"
+                />
+              </div>
+
+              <FormInput
+                label="E-posta Adresi"
+                type="email"
+                register={register}
+                name="email"
+                error={errors.email}
+                placeholder="ornek@universite.edu.tr"
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <FormInput
+                  label="Şifre"
+                  type="password"
+                  register={register}
+                  name="password"
+                  error={errors.password}
+                  placeholder="En az 6 karakter"
+                />
+                <FormInput
+                  label="Şifre Tekrar"
+                  type="password"
+                  register={register}
+                  name="confirmPassword"
+                  error={errors.confirmPassword}
+                  placeholder="Şifreni tekrar gir"
+                />
+              </div>
+            </div>
+
+            {/* Eğitim Bilgileri */}
+            <div className="space-y-6 pt-4">
+              <div className="pb-4 border-b border-slate-200/60">
+                <h3 className="text-lg font-semibold text-slate-900 flex items-center">
+                  <span className="w-2 h-6 bg-emerald-500 rounded-full mr-3"></span>
+                  Eğitim Bilgilerin
+                </h3>
+                <p className="text-sm text-slate-600 mt-1">
+                  Hangi bölümde okuyorsun?
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <FormInput
+                  label="Üniversite"
+                  register={register}
+                  name="university"
+                  error={errors.university}
+                  placeholder="Üniversite adı"
+                />
+                <FormInput
+                  label="Bölüm"
+                  register={register}
+                  name="department"
+                  error={errors.department}
+                  placeholder="Bölüm adı"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Sınıf
+                </label>
+                <select
+                  {...register("academicYear", { valueAsNumber: true })}
+                  className="input-field"
+                >
+                  <option value="">Sınıf seçin</option>
+                  <option value={1}>1. Sınıf</option>
+                  <option value={2}>2. Sınıf</option>
+                  <option value={3}>3. Sınıf</option>
+                  <option value={4}>4. Sınıf</option>
+                </select>
+                {errors.academicYear && (
+                  <p className="mt-1 text-sm text-rose-600">
+                    {errors.academicYear.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-3">
+                  Cinsiyet
+                </label>
+                <div className="space-y-3">
+                  {[
+                    { value: 1, label: "Erkek" },
+                    { value: 2, label: "Kadın" },
+                    { value: 3, label: "Belirtmek İstemiyorum" },
+                  ].map((option) => (
+                    <label
+                      key={option.value}
+                      className="flex items-center p-4 border-2 border-slate-200 rounded-xl hover:border-blue-300 cursor-pointer transition-all duration-300 bg-white"
+                    >
+                      <input
+                        type="radio"
+                        {...register("gender", { valueAsNumber: true })}
+                        value={option.value}
+                        className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300"
+                      />
+                      <span className="ml-3 text-sm font-medium text-slate-700">
+                        {option.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+                {errors.gender && (
+                  <p className="mt-1 text-sm text-rose-600">
+                    {errors.gender.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="pt-4">
+              <SubmitButton text="Hesabını Oluştur" isLoading={isLoading} />
+            </div>
+
+            <div className="text-center pt-6 border-t border-slate-200/60">
+              <p className="text-sm text-slate-600 mb-3">
+                Zaten hesabın var mı?
+              </p>
+              <Link
+                to="/login"
+                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-all duration-300 group"
+              >
+                Giriş Yap
+                <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

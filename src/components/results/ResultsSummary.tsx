@@ -1,6 +1,6 @@
 import React from "react";
 import { QuestionnaireResultDto } from "../../types/results";
-import { Calendar, Clock, Book, Trophy } from "lucide-react";
+import { Calendar, Clock, Book, Trophy, Target } from "lucide-react";
 
 interface ResultsSummaryProps {
   results: QuestionnaireResultDto;
@@ -29,38 +29,70 @@ const ResultsSummary: React.FC<ResultsSummaryProps> = ({ results }) => {
 
   const topCareer = results.careerResults[0];
 
+  const stats = [
+    {
+      icon: Book,
+      label: "Bölüm",
+      value: results.departmentName,
+      color: "blue",
+    },
+    {
+      icon: Calendar,
+      label: "Test Tarihi",
+      value: formatDate(results.startedAt),
+      color: "emerald",
+    },
+    {
+      icon: Clock,
+      label: "Süre",
+      value: formatDuration(results.startedAt, results.completedAt),
+      color: "purple",
+    },
+    {
+      icon: Trophy,
+      label: "En Yüksek Uyum",
+      value: `%${topCareer.compatibilityPercentage.toFixed(1)}`,
+      color: "amber",
+    },
+  ];
+
+  const getColorClasses = (color: string) => {
+    switch (color) {
+      case "blue":
+        return "bg-blue-100 text-blue-600";
+      case "emerald":
+        return "bg-emerald-100 text-emerald-600";
+      case "purple":
+        return "bg-purple-100 text-purple-600";
+      case "amber":
+        return "bg-amber-100 text-amber-600";
+      default:
+        return "bg-slate-100 text-slate-600";
+    }
+  };
+
   return (
-    <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg shadow-lg p-6 text-white mb-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="text-center">
-          <Book className="h-8 w-8 mx-auto mb-2" />
-          <p className="text-sm opacity-90">Bölüm</p>
-          <p className="text-lg font-semibold">{results.departmentName}</p>
-        </div>
-
-        <div className="text-center">
-          <Calendar className="h-8 w-8 mx-auto mb-2" />
-          <p className="text-sm opacity-90">Test Tarihi</p>
-          <p className="text-lg font-semibold">
-            {formatDate(results.startedAt)}
-          </p>
-        </div>
-
-        <div className="text-center">
-          <Clock className="h-8 w-8 mx-auto mb-2" />
-          <p className="text-sm opacity-90">Süre</p>
-          <p className="text-lg font-semibold">
-            {formatDuration(results.startedAt, results.completedAt)}
-          </p>
-        </div>
-
-        <div className="text-center">
-          <Trophy className="h-8 w-8 mx-auto mb-2" />
-          <p className="text-sm opacity-90">En Yüksek Uyum</p>
-          <p className="text-lg font-semibold">
-            %{topCareer.compatibilityPercentage.toFixed(1)}
-          </p>
-        </div>
+    <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-600 rounded-2xl shadow-strong p-8 text-white">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat, index) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="text-center p-4 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20"
+            >
+              <div
+                className={`w-12 h-12 ${getColorClasses(
+                  stat.color
+                )} rounded-2xl flex items-center justify-center mx-auto mb-3`}
+              >
+                <Icon className="h-6 w-6" />
+              </div>
+              <p className="text-sm text-blue-100 mb-1">{stat.label}</p>
+              <p className="text-lg font-bold">{stat.value}</p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

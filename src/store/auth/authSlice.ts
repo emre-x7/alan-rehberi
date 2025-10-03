@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { authApi } from "../../services/api/authApi";
 import { AuthState, LoginCredentials, RegisterData } from "./authTypes";
-import { AuthResponse, User } from "../../types/auth";
+import { AuthResponse, User, RegisterRequest } from "../../types/auth";
 
 const initialState: AuthState = {
   user: null,
@@ -27,10 +27,9 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
   "auth/register",
-  async (userData: RegisterData, { rejectWithValue }) => {
+  async (userData: RegisterRequest, { rejectWithValue }) => {
     try {
       const response = await authApi.register(userData);
-      localStorage.setItem("token", response.token);
       return response;
     } catch (error: any) {
       return rejectWithValue(
@@ -73,7 +72,12 @@ const authSlice = createSlice({
           email: action.payload.email,
           firstName: action.payload.firstName,
           lastName: action.payload.lastName,
+          university: action.payload.university,
+          department: action.payload.department,
+          academicYear: action.payload.academicYear,
+          gender: action.payload.gender,
           createdAt: new Date().toISOString(),
+          isActive: true,
         };
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -87,15 +91,9 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = true;
-        state.token = action.payload.token;
-        state.user = {
-          id: action.payload.userId,
-          email: action.payload.email,
-          firstName: action.payload.firstName,
-          lastName: action.payload.lastName,
-          createdAt: new Date().toISOString(),
-        };
+        state.isAuthenticated = false;
+        state.token = null;
+        state.user = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;

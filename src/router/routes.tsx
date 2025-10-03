@@ -9,6 +9,7 @@ import Departments from "../pages/Departments";
 import Questionnaire from "../pages/Questionnaire";
 import Results from "../pages/Results";
 import Profile from "../pages/Profile";
+import CareerDetail from "../pages/CareerDetail";
 
 export const routes: RouteObject[] = [
   {
@@ -56,6 +57,14 @@ export const routes: RouteObject[] = [
     element: (
       <ProtectedRoute>
         <Profile />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/career/:careerId",
+    element: (
+      <ProtectedRoute>
+        <CareerDetail />
       </ProtectedRoute>
     ),
   },

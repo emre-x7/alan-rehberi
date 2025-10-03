@@ -2,14 +2,23 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logout } from "../../store/auth/authSlice";
-import { Menu, X, User, LogOut, Home, Book, BarChart3 } from "lucide-react";
+import {
+  Menu,
+  X,
+  User,
+  LogOut,
+  Home,
+  Book,
+  BarChart3,
+  GraduationCap,
+  Sparkles,
+} from "lucide-react";
 
 const Navigation: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -18,8 +27,9 @@ const Navigation: React.FC = () => {
   };
 
   const navigationItems = [
-    { path: "/", label: "Dashboard", icon: Home },
+    { path: "/", label: "Ana Sayfa", icon: Home },
     { path: "/departments", label: "Bölümler", icon: Book },
+    { path: "/profile", label: "Profilim", icon: BarChart3 },
   ];
 
   const isActivePath = (path: string) => {
@@ -27,78 +37,95 @@ const Navigation: React.FC = () => {
   };
 
   return (
-    <nav className="bg-white shadow-lg border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo ve ana navigasyon */}
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <Book className="h-8 w-8 text-primary-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">
-                CareerPathfinder
-              </span>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:ml-6 md:flex md:space-x-4">
-              {navigationItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={`inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActivePath(item.path)
-                        ? "bg-primary-100 text-primary-700"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4 mr-2" />
-                    {item.label}
-                  </Link>
-                );
-              })}
+    <nav className="bg-white/80 backdrop-blur-sm border-b border-slate-200/60 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex justify-between h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center group">
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <GraduationCap className="h-5 w-5 text-white" />
+                </div>
+                <div className="absolute -top-1 -right-1">
+                  <div className="w-4 h-4 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
+                    <Sparkles className="h-2 w-2 text-white" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <span className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                  CareerPathfinder
+                </span>
+                <p className="text-xs text-slate-500 -mt-1">
+                  kariyer yolculuğunuzda
+                </p>
+              </div>
             </div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
+            {navigationItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    isActivePath(item.path)
+                      ? "text-blue-600 bg-blue-50/80 shadow-sm"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50/80"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
           </div>
 
-          {/* User menu ve mobile button */}
-          <div className="flex items-center space-x-4">
-            {/* User info - Desktop */}
-            <div className="hidden md:flex items-center space-x-3">
-              <div className="flex items-center justify-center w-8 h-8 bg-primary-100 rounded-full">
-                <User className="h-4 w-4 text-primary-600" />
+          {/* User Menu - Desktop */}
+          <div className="hidden md:flex items-center space-x-4">
+            <div className="flex items-center space-x-3 px-4 py-2 bg-slate-50/80 rounded-xl border border-slate-200/60">
+              <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
+                <User className="h-4 w-4 text-white" />
               </div>
-              <span className="text-sm font-medium text-gray-700">
-                {user?.firstName} {user?.lastName}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="text-gray-600 hover:text-gray-900 p-2 rounded-md hover:bg-gray-100 transition-colors"
-                title="Çıkış Yap"
-              >
-                <LogOut className="h-4 w-4" />
-              </button>
+              <div className="text-sm">
+                <p className="font-semibold text-slate-800">
+                  {user?.firstName} {user?.lastName}
+                </p>
+                <p className="text-slate-500 text-xs">{user?.university}</p>
+              </div>
             </div>
 
-            {/* Mobile menu button */}
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+              onClick={handleLogout}
+              className="p-2 text-slate-600 hover:text-rose-600 hover:bg-rose-50/80 rounded-xl transition-all duration-300 border border-transparent hover:border-rose-200"
+              title="Çıkış Yap"
             >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              <LogOut className="h-5 w-5" />
             </button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden inline-flex items-center justify-center p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
         </div>
       </div>
 
       {/* Mobile Navigation Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+        <div className="md:hidden border-t border-slate-200/60 bg-white/95 backdrop-blur-sm">
+          <div className="px-6 pt-4 pb-6 space-y-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -106,30 +133,35 @@ const Navigation: React.FC = () => {
                   key={item.path}
                   to={item.path}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
                     isActivePath(item.path)
-                      ? "bg-primary-100 text-primary-700"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      ? "text-blue-600 bg-blue-50/80"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50/80"
                   }`}
                 >
-                  <Icon className="h-4 w-4 mr-3" />
-                  {item.label}
+                  <Icon className="h-5 w-5" />
+                  <span>{item.label}</span>
                 </Link>
               );
             })}
 
-            {/* Mobile user info ve logout */}
-            <div className="border-t pt-3 mt-3">
-              <div className="flex items-center px-3 py-2 text-sm text-gray-700">
-                <User className="h-4 w-4 mr-2" />
-                {user?.firstName} {user?.lastName}
+            {/* Mobile User Info */}
+            <div className="border-t border-slate-200/60 pt-4 mt-4 space-y-3">
+              <div className="flex items-center space-x-3 px-4 py-3 bg-slate-50/80 rounded-xl">
+                <User className="h-5 w-5 text-slate-600" />
+                <div>
+                  <p className="text-sm font-semibold text-slate-800">
+                    {user?.firstName} {user?.lastName}
+                  </p>
+                  <p className="text-xs text-slate-500">{user?.university}</p>
+                </div>
               </div>
               <button
                 onClick={handleLogout}
-                className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                className="flex items-center space-x-3 w-full px-4 py-3 rounded-xl text-base font-medium text-rose-600 hover:bg-rose-50/80 transition-all duration-300"
               >
-                <LogOut className="h-4 w-4 mr-3" />
-                Çıkış Yap
+                <LogOut className="h-5 w-5" />
+                <span>Çıkış Yap</span>
               </button>
             </div>
           </div>

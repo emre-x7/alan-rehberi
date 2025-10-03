@@ -1,4 +1,5 @@
 import React from "react";
+import { Loader } from "lucide-react";
 
 interface SubmitButtonProps {
   text: string;
@@ -15,9 +16,16 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
     <button
       type="submit"
       disabled={disabled || isLoading}
-      className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
     >
-      {isLoading ? "İşleniyor..." : text}
+      {isLoading ? (
+        <>
+          <Loader className="h-5 w-5 mr-2 animate-spin" />
+          İşleniyor...
+        </>
+      ) : (
+        text
+      )}
     </button>
   );
 };
