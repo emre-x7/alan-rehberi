@@ -7,6 +7,7 @@ import {
   Award,
   ChevronRight,
   Sparkles,
+  Zap,
 } from "lucide-react";
 
 interface CareerResultCardProps {
@@ -20,38 +21,43 @@ const CareerResultCard: React.FC<CareerResultCardProps> = ({
 }) => {
   const getCompatibilityColor = (percentage: number) => {
     if (percentage >= 80)
-      return "text-emerald-600 bg-emerald-100 border-emerald-200";
-    if (percentage >= 60) return "text-cyan-600 bg-cyan-100 border-cyan-200";
-    return "text-amber-600 bg-amber-100 border-amber-200";
+      return "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+    if (percentage >= 60)
+      return "text-cyan-400 bg-cyan-500/10 border-cyan-500/20";
+    return "text-amber-400 bg-amber-500/10 border-amber-500/20";
   };
 
   const getRankBadge = (rank: number) => {
     if (rank === 1)
       return {
         icon: Award,
-        color: "text-amber-500",
-        bg: "bg-amber-50",
-        border: "border-amber-200",
+        color: "text-amber-400",
+        bg: "bg-amber-500/10",
+        border: "border-amber-500/20",
+        label: "🏆 En İyi Eşleşme",
       };
     if (rank === 2)
       return {
         icon: Award,
-        color: "text-slate-500",
-        bg: "bg-slate-50",
-        border: "border-slate-200",
+        color: "text-slate-300",
+        bg: "bg-slate-500/10",
+        border: "border-slate-500/20",
+        label: "🥈 İkinci",
       };
     if (rank === 3)
       return {
         icon: Award,
-        color: "text-orange-500",
-        bg: "bg-orange-50",
-        border: "border-orange-200",
+        color: "text-orange-400",
+        bg: "bg-orange-500/10",
+        border: "border-orange-500/20",
+        label: "🥉 Üçüncü",
       };
     return {
       icon: Target,
       color: "text-slate-400",
-      bg: "bg-slate-50",
-      border: "border-slate-200",
+      bg: "bg-slate-500/10",
+      border: "border-slate-500/20",
+      label: `#${rank}`,
     };
   };
 
@@ -60,10 +66,10 @@ const CareerResultCard: React.FC<CareerResultCardProps> = ({
 
   return (
     <div
-      className={`group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border-2 transition-all duration-500 hover:shadow-strong ${
+      className={`group card-interactive p-6 ${
         isTopResult
-          ? "border-blue-300 bg-gradient-to-br from-blue-50/80 to-cyan-50/80 hover:border-blue-400"
-          : `${badge.border} hover:border-slate-300`
+          ? "border-amber-500/30 bg-gradient-to-br from-amber-500/5 to-orange-500/5 hover:border-amber-400/50"
+          : `${badge.border} hover:border-slate-500`
       }`}
     >
       {/* Header */}
@@ -73,12 +79,10 @@ const CareerResultCard: React.FC<CareerResultCardProps> = ({
             <BadgeIcon className={`h-6 w-6 ${badge.color}`} />
           </div>
           <div className="flex-1">
-            <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
+            <h3 className="text-xl font-bold text-slate-100 mb-1 group-hover:text-amber-400 transition-colors">
               {career.careerName}
             </h3>
-            <p className="text-sm text-slate-600">
-              #{career.rank} Önerilen Kariyer
-            </p>
+            <p className="text-sm text-slate-400">{badge.label}</p>
           </div>
         </div>
 
@@ -92,40 +96,42 @@ const CareerResultCard: React.FC<CareerResultCardProps> = ({
       </div>
 
       {/* Description */}
-      <p className="text-slate-700 mb-6 leading-relaxed line-clamp-3">
+      <p className="text-slate-400 mb-6 leading-relaxed line-clamp-3">
         {career.careerDescription}
       </p>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-white rounded-xl border border-slate-200/60">
+      <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-slate-700/30 rounded-xl border border-slate-600">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-            <TrendingUp className="h-4 w-4 text-blue-600" />
+          <div className="w-8 h-8 bg-sky-500/10 rounded-lg flex items-center justify-center">
+            <TrendingUp className="h-4 w-4 text-sky-400" />
           </div>
           <div>
-            <p className="text-xs text-slate-500">Skor</p>
-            <p className="text-sm font-bold text-slate-900">
+            <p className="text-xs text-slate-400">Skor</p>
+            <p className="text-sm font-bold text-slate-100">
               {career.totalScore}/{career.maxPossibleScore}
             </p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
-            <Star className="h-4 w-4 text-amber-600" />
+          <div className="w-8 h-8 bg-amber-500/10 rounded-lg flex items-center justify-center">
+            <Zap className="h-4 w-4 text-amber-400" />
           </div>
           <div>
-            <p className="text-xs text-slate-500">Sıralama</p>
-            <p className="text-sm font-bold text-slate-900">#{career.rank}</p>
+            <p className="text-xs text-slate-400">Uyum</p>
+            <p className="text-sm font-bold text-slate-100">
+              %{career.compatibilityPercentage.toFixed(1)}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Top Result Banner */}
       {isTopResult && (
-        <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border-2 border-blue-200 mb-4">
-          <p className="text-blue-700 text-sm font-semibold flex items-center">
-            <Sparkles className="h-4 w-4 mr-2 text-amber-500" />
-            🏆 En yüksek uyum skoruna sahip kariyer! Detaylı rehber için tıkla.
+        <div className="p-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl border-2 border-amber-500/20 mb-4">
+          <p className="text-amber-400 text-sm font-semibold flex items-center">
+            <Sparkles className="h-4 w-4 mr-2 text-amber-400" />
+            🎯 En yüksek uyum skoruna sahip kariyer! Detaylı rehber için tıkla.
           </p>
         </div>
       )}
@@ -136,7 +142,7 @@ const CareerResultCard: React.FC<CareerResultCardProps> = ({
           {career.totalScore} puan • {career.compatibilityPercentage.toFixed(1)}
           % uyum
         </span>
-        <div className="flex items-center text-blue-600 font-semibold group-hover:text-blue-700 transition-colors">
+        <div className="flex items-center text-amber-400 font-semibold group-hover:text-amber-300 transition-colors">
           <span className="text-sm mr-1">Detayları Gör</span>
           <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
         </div>

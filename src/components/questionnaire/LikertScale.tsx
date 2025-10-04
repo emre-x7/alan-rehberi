@@ -12,54 +12,69 @@ const LikertScale: React.FC<LikertScaleProps> = ({
   onValueSelect,
 }) => {
   const scaleOptions = [
-    { value: 1, label: "Hiç Katılmıyorum", emoji: "😠", color: "rose" },
-    { value: 2, label: "Katılmıyorum", emoji: "😕", color: "amber" },
-    { value: 3, label: "Kararsızım", emoji: "😐", color: "slate" },
-    { value: 4, label: "Katılıyorum", emoji: "🙂", color: "emerald" },
-    { value: 5, label: "Tamamen Katılıyorum", emoji: "😊", color: "green" },
+    {
+      value: 1,
+      label: "Hiç Katılmıyorum",
+      emoji: "😠",
+      color: "rose",
+      bgColor: "bg-rose-500/10",
+      borderColor: "border-rose-500/30",
+      textColor: "text-rose-400",
+    },
+    {
+      value: 2,
+      label: "Katılmıyorum",
+      emoji: "😕",
+      color: "amber",
+      bgColor: "bg-amber-500/10",
+      borderColor: "border-amber-500/30",
+      textColor: "text-amber-400",
+    },
+    {
+      value: 3,
+      label: "Kararsızım",
+      emoji: "😐",
+      color: "slate",
+      bgColor: "bg-slate-500/10",
+      borderColor: "border-slate-500/30",
+      textColor: "text-slate-400",
+    },
+    {
+      value: 4,
+      label: "Katılıyorum",
+      emoji: "🙂",
+      color: "emerald",
+      bgColor: "bg-emerald-500/10",
+      borderColor: "border-emerald-500/30",
+      textColor: "text-emerald-400",
+    },
+    {
+      value: 5,
+      label: "Tamamen Katılıyorum",
+      emoji: "😊",
+      color: "green",
+      bgColor: "bg-green-500/10",
+      borderColor: "border-green-500/30",
+      textColor: "text-green-400",
+    },
   ];
 
-  const getColorClasses = (color: string, isSelected: boolean) => {
+  const getColorClasses = (
+    option: (typeof scaleOptions)[0],
+    isSelected: boolean
+  ) => {
     const baseClasses = "border-2 transition-all duration-300 transform ";
 
     if (isSelected) {
-      switch (color) {
-        case "rose":
-          return (
-            baseClasses +
-            "border-rose-500 bg-rose-50 text-rose-700 shadow-lg scale-105"
-          );
-        case "amber":
-          return (
-            baseClasses +
-            "border-amber-500 bg-amber-50 text-amber-700 shadow-lg scale-105"
-          );
-        case "slate":
-          return (
-            baseClasses +
-            "border-slate-500 bg-slate-50 text-slate-700 shadow-lg scale-105"
-          );
-        case "emerald":
-          return (
-            baseClasses +
-            "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-lg scale-105"
-          );
-        case "green":
-          return (
-            baseClasses +
-            "border-green-500 bg-green-50 text-green-700 shadow-lg scale-105"
-          );
-        default:
-          return (
-            baseClasses +
-            "border-blue-500 bg-blue-50 text-blue-700 shadow-lg scale-105"
-          );
-      }
+      return (
+        baseClasses +
+        `${option.borderColor} ${option.bgColor} ${option.textColor} shadow-lg scale-105`
+      );
     }
 
     return (
       baseClasses +
-      "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 hover:scale-102"
+      "border-slate-600 bg-slate-800 hover:border-slate-500 hover:bg-slate-700/50 hover:scale-102 text-slate-300"
     );
   };
 
@@ -72,7 +87,7 @@ const LikertScale: React.FC<LikertScaleProps> = ({
             key={option.value}
             onClick={() => onValueSelect(questionId, option.value)}
             className={`flex items-center justify-between p-4 rounded-xl ${getColorClasses(
-              option.color,
+              option,
               selectedValue === option.value
             )}`}
           >
@@ -84,7 +99,7 @@ const LikertScale: React.FC<LikertScaleProps> = ({
                 </span>
               </div>
             </div>
-            <span className="text-xl font-bold text-slate-700">
+            <span className="text-xl font-bold text-slate-200">
               {option.value}
             </span>
           </button>
@@ -98,15 +113,15 @@ const LikertScale: React.FC<LikertScaleProps> = ({
             key={option.value}
             onClick={() => onValueSelect(questionId, option.value)}
             className={`flex flex-col items-center justify-center p-6 rounded-xl ${getColorClasses(
-              option.color,
+              option,
               selectedValue === option.value
             )}`}
           >
             <span className="text-3xl mb-3">{option.emoji}</span>
-            <span className="text-xl font-bold mb-2 text-slate-800">
+            <span className="text-xl font-bold mb-2 text-slate-200">
               {option.value}
             </span>
-            <span className="text-xs font-semibold text-center leading-tight text-slate-600">
+            <span className="text-xs font-semibold text-center leading-tight">
               {option.label}
             </span>
           </button>

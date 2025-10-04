@@ -1,4 +1,3 @@
-// C:\Users\emreo\Desktop\CareerPathfinder\frontend\src\store\questionnaire\questionnaireSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { questionnaireApi, questionApi } from "../../services/api";
 import {

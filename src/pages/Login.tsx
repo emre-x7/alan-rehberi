@@ -1,3 +1,4 @@
+// src/pages/Login.tsx - YENİ DARK MODE
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -5,7 +6,7 @@ import { loginUser } from "../store/auth/authSlice";
 import { useLoginForm } from "../hooks/useAuthForms";
 import FormInput from "../components/forms/FormInput";
 import SubmitButton from "../components/forms/SubmitButton";
-import { GraduationCap, ArrowRight, Sparkles } from "lucide-react";
+import { GraduationCap, ArrowRight, Sparkles, Lock } from "lucide-react";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -26,14 +27,14 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 fade-in">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 fade-in-up">
         {/* Logo ve Başlık */}
         <div className="text-center">
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <GraduationCap className="h-8 w-8 text-white" />
+              <div className="w-16 h-16 bg-gradient-to-r from-sky-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg">
+                <Lock className="h-8 w-8 text-white" />
               </div>
               <div className="absolute -top-1 -right-1">
                 <div className="w-6 h-6 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
@@ -42,19 +43,19 @@ const Login: React.FC = () => {
               </div>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-3">
+          <h1 className="text-3xl font-bold text-slate-100 mb-3">
             Tekrar Hoş Geldin!
           </h1>
-          <p className="text-slate-600">
+          <p className="text-slate-400">
             Kariyer yolculuğuna kaldığın yerden devam et
           </p>
         </div>
 
         {/* Form */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-strong border border-slate-200/60 p-8">
+        <div className="card p-8">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {error && (
-              <div className="bg-rose-50 border-2 border-rose-200 text-rose-700 px-4 py-3 rounded-xl flex items-center">
+              <div className="bg-rose-500/10 border-2 border-rose-500/20 text-rose-300 px-4 py-3 rounded-xl flex items-center">
                 <svg
                   className="h-5 w-5 mr-2 flex-shrink-0"
                   fill="currentColor"
@@ -91,16 +92,20 @@ const Login: React.FC = () => {
             </div>
 
             <div className="pt-2">
-              <SubmitButton text="Giriş Yap" isLoading={isLoading} />
+              <SubmitButton
+                text="Giriş Yap"
+                isLoading={isLoading}
+                className="btn-primary w-full"
+              />
             </div>
 
-            <div className="text-center pt-4 border-t border-slate-200/60">
-              <p className="text-sm text-slate-600 mb-3">
+            <div className="text-center pt-4 border-t border-slate-700/60">
+              <p className="text-sm text-slate-400 mb-3">
                 Henüz hesabın yok mu?
               </p>
               <Link
                 to="/register"
-                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-all duration-300 group"
+                className="inline-flex items-center text-amber-400 hover:text-amber-300 font-semibold transition-all duration-300 group"
               >
                 Hemen Kayıt Ol
                 <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />

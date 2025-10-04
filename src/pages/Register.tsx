@@ -1,3 +1,4 @@
+// src/pages/Register.tsx - YENİ DARK MODE
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -6,7 +7,13 @@ import { useRegisterForm } from "../hooks/useAuthForms";
 import FormInput from "../components/forms/FormInput";
 import SubmitButton from "../components/forms/SubmitButton";
 import { RegisterFormData } from "../utils/validationSchemas";
-import { GraduationCap, ArrowRight, UserPlus, Sparkles } from "lucide-react";
+import {
+  GraduationCap,
+  ArrowRight,
+  UserPlus,
+  Sparkles,
+  BookOpen,
+} from "lucide-react";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -29,35 +36,35 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl w-full space-y-8 fade-in">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl w-full space-y-8 fade-in-up">
         {/* Logo ve Başlık */}
         <div className="text-center">
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl flex items-center justify-center shadow-lg">
-                <UserPlus className="h-8 w-8 text-white" />
+              <div className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+                <UserPlus className="h-8 w-8 text-slate-900" />
               </div>
               <div className="absolute -top-1 -right-1">
-                <div className="w-6 h-6 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full flex items-center justify-center">
                   <Sparkles className="h-3 w-3 text-white" />
                 </div>
               </div>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-3">
+          <h1 className="text-3xl font-bold text-slate-100 mb-3">
             Kariyer Yolculuğuna Başla
           </h1>
-          <p className="text-slate-600">
+          <p className="text-slate-400">
             Sana en uygun kariyer yolunu keşfetmek için aramıza katıl
           </p>
         </div>
 
         {/* Form */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-strong border border-slate-200/60 p-8">
+        <div className="card p-8">
           <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
             {error && (
-              <div className="bg-rose-50 border-2 border-rose-200 text-rose-700 px-4 py-3 rounded-xl flex items-center">
+              <div className="bg-rose-500/10 border-2 border-rose-500/20 text-rose-300 px-4 py-3 rounded-xl flex items-center">
                 <svg
                   className="h-5 w-5 mr-2 flex-shrink-0"
                   fill="currentColor"
@@ -75,12 +82,12 @@ const Register: React.FC = () => {
 
             {/* Kişisel Bilgiler */}
             <div className="space-y-6">
-              <div className="pb-4 border-b border-slate-200/60">
-                <h3 className="text-lg font-semibold text-slate-900 flex items-center">
-                  <span className="w-2 h-6 bg-blue-500 rounded-full mr-3"></span>
+              <div className="pb-4 border-b border-slate-700/60">
+                <h3 className="text-lg font-semibold text-slate-100 flex items-center">
+                  <span className="w-2 h-6 bg-sky-500 rounded-full mr-3"></span>
                   Kişisel Bilgiler
                 </h3>
-                <p className="text-sm text-slate-600 mt-1">Seni tanıyalım</p>
+                <p className="text-sm text-slate-400 mt-1">Seni tanıyalım</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -131,12 +138,12 @@ const Register: React.FC = () => {
 
             {/* Eğitim Bilgileri */}
             <div className="space-y-6 pt-4">
-              <div className="pb-4 border-b border-slate-200/60">
-                <h3 className="text-lg font-semibold text-slate-900 flex items-center">
+              <div className="pb-4 border-b border-slate-700/60">
+                <h3 className="text-lg font-semibold text-slate-100 flex items-center">
                   <span className="w-2 h-6 bg-emerald-500 rounded-full mr-3"></span>
                   Eğitim Bilgilerin
                 </h3>
-                <p className="text-sm text-slate-600 mt-1">
+                <p className="text-sm text-slate-400 mt-1">
                   Hangi bölümde okuyorsun?
                 </p>
               </div>
@@ -159,7 +166,7 @@ const Register: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
                   Sınıf
                 </label>
                 <select
@@ -173,14 +180,14 @@ const Register: React.FC = () => {
                   <option value={4}>4. Sınıf</option>
                 </select>
                 {errors.academicYear && (
-                  <p className="mt-1 text-sm text-rose-600">
+                  <p className="mt-1 text-sm text-rose-400">
                     {errors.academicYear.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-3">
+                <label className="block text-sm font-semibold text-slate-300 mb-3">
                   Cinsiyet
                 </label>
                 <div className="space-y-3">
@@ -191,22 +198,22 @@ const Register: React.FC = () => {
                   ].map((option) => (
                     <label
                       key={option.value}
-                      className="flex items-center p-4 border-2 border-slate-200 rounded-xl hover:border-blue-300 cursor-pointer transition-all duration-300 bg-white"
+                      className="flex items-center p-4 border-2 border-slate-600 rounded-xl hover:border-sky-500/50 cursor-pointer transition-all duration-300 bg-slate-700/50"
                     >
                       <input
                         type="radio"
                         {...register("gender", { valueAsNumber: true })}
                         value={option.value}
-                        className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-slate-300"
+                        className="w-4 h-4 text-sky-500 focus:ring-sky-500 border-slate-500 bg-slate-800"
                       />
-                      <span className="ml-3 text-sm font-medium text-slate-700">
+                      <span className="ml-3 text-sm font-medium text-slate-300">
                         {option.label}
                       </span>
                     </label>
                   ))}
                 </div>
                 {errors.gender && (
-                  <p className="mt-1 text-sm text-rose-600">
+                  <p className="mt-1 text-sm text-rose-400">
                     {errors.gender.message}
                   </p>
                 )}
@@ -214,16 +221,20 @@ const Register: React.FC = () => {
             </div>
 
             <div className="pt-4">
-              <SubmitButton text="Hesabını Oluştur" isLoading={isLoading} />
+              <SubmitButton
+                text="Hesabını Oluştur"
+                isLoading={isLoading}
+                className="btn-primary w-full"
+              />
             </div>
 
-            <div className="text-center pt-6 border-t border-slate-200/60">
-              <p className="text-sm text-slate-600 mb-3">
+            <div className="text-center pt-6 border-t border-slate-700/60">
+              <p className="text-sm text-slate-400 mb-3">
                 Zaten hesabın var mı?
               </p>
               <Link
                 to="/login"
-                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-all duration-300 group"
+                className="inline-flex items-center text-amber-400 hover:text-amber-300 font-semibold transition-all duration-300 group"
               >
                 Giriş Yap
                 <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />

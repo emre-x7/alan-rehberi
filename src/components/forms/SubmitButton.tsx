@@ -3,20 +3,20 @@ import { Loader } from "lucide-react";
 
 interface SubmitButtonProps {
   text: string;
-  isLoading?: boolean;
-  disabled?: boolean;
+  isLoading: boolean;
+  className?: string;
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   text,
-  isLoading = false,
-  disabled = false,
+  isLoading,
+  className = "btn-primary w-full",
 }) => {
   return (
     <button
       type="submit"
-      disabled={disabled || isLoading}
-      className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+      disabled={isLoading}
+      className={`${className} disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center`}
     >
       {isLoading ? (
         <>

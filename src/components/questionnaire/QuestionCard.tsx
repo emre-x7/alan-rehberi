@@ -1,7 +1,7 @@
 import React from "react";
 import { QuestionDto } from "../../types/questionnaire";
 import LikertScale from "./LikertScale";
-import { MessageCircle, Target } from "lucide-react";
+import { MessageCircle, Target, HelpCircle } from "lucide-react";
 
 interface QuestionCardProps {
   question: QuestionDto;
@@ -19,17 +19,17 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   totalQuestions,
 }) => {
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-soft p-8 border border-slate-200/60">
+    <div className="card p-8">
       {/* Question Number Badge */}
       <div className="flex items-center justify-between mb-6">
-        <div className="inline-flex items-center px-4 py-2 bg-blue-50 rounded-xl border border-blue-200">
-          <MessageCircle className="h-4 w-4 text-blue-600 mr-2" />
-          <span className="text-sm font-semibold text-blue-700">
+        <div className="inline-flex items-center px-4 py-2 bg-sky-500/10 rounded-xl border border-sky-500/20">
+          <MessageCircle className="h-4 w-4 text-sky-400 mr-2" />
+          <span className="text-sm font-semibold text-sky-400">
             Soru {currentIndex + 1} / {totalQuestions}
           </span>
         </div>
         <div className="text-right">
-          <div className="text-2xl font-bold text-blue-600">
+          <div className="text-2xl font-bold text-sky-400">
             %{Math.round(((currentIndex + 1) / totalQuestions) * 100)}
           </div>
           <div className="text-xs text-slate-500">tamamlandı</div>
@@ -37,9 +37,19 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       </div>
 
       {/* Question Text */}
-      <h3 className="text-xl md:text-2xl font-semibold text-slate-900 mb-8 leading-relaxed text-center">
-        "{question.content}"
-      </h3>
+      <div className="text-center mb-8">
+        <h3 className="text-xl md:text-2xl font-semibold text-slate-100 mb-8 leading-relaxed">
+          "{question.content}"
+        </h3>
+
+        {/* Helper Info */}
+        <div className="inline-flex items-center px-4 py-2 bg-slate-700/50 rounded-lg border border-slate-600">
+          <HelpCircle className="h-4 w-4 text-slate-400 mr-2" />
+          <span className="text-sm text-slate-400">
+            Kendini en iyi ifade eden seçeneği işaretle
+          </span>
+        </div>
+      </div>
 
       {/* Likert Scale */}
       <LikertScale
@@ -50,8 +60,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
 
       {/* Helper Text */}
       {!selectedValue && (
-        <div className="text-center mt-6 p-4 bg-amber-50 rounded-xl border border-amber-200">
-          <p className="text-sm text-amber-700 flex items-center justify-center">
+        <div className="text-center mt-6 p-4 bg-amber-500/10 rounded-xl border border-amber-500/20">
+          <p className="text-sm text-amber-400 flex items-center justify-center">
             <Target className="h-4 w-4 mr-2" />
             Yukarıdaki seçeneklerden birini seçerek devam et
           </p>

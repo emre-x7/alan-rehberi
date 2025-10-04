@@ -1,7 +1,8 @@
+// src/components/departments/DepartmentCard.tsx - YENİ DARK MODE
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DepartmentDto } from "../../types/department";
-import { Book, Users, ArrowRight, Target, Star } from "lucide-react";
+import { Book, Users, ArrowRight, Target, Star, Clock } from "lucide-react";
 import ConfirmationModal from "../forms/ConfirmationModal";
 
 interface DepartmentCardProps {
@@ -27,15 +28,15 @@ const DepartmentCard: React.FC<DepartmentCardProps> = ({ department }) => {
 
   return (
     <>
-      <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-slate-200/60 hover:border-transparent hover:shadow-strong transition-all duration-500 transform hover:-translate-y-1">
+      <div className="group card-interactive p-6">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+            <h3 className="text-xl font-bold text-slate-100 mb-2 group-hover:text-amber-400 transition-colors">
               {department.name}
             </h3>
             {department.description && (
-              <p className="text-slate-600 text-sm leading-relaxed line-clamp-2">
+              <p className="text-slate-400 text-sm leading-relaxed line-clamp-2">
                 {department.description}
               </p>
             )}
@@ -48,38 +49,38 @@ const DepartmentCard: React.FC<DepartmentCardProps> = ({ department }) => {
         </div>
 
         {/* Stats */}
-        <div className="flex items-center justify-between mb-6 py-4 px-4 bg-slate-50/80 rounded-xl border border-slate-200/60">
+        <div className="flex items-center justify-between mb-6 py-4 px-4 bg-slate-700/50 rounded-xl border border-slate-600">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Target className="h-4 w-4 text-blue-600" />
+            <div className="w-8 h-8 bg-sky-500/10 rounded-lg flex items-center justify-center">
+              <Target className="h-4 w-4 text-sky-400" />
             </div>
             <div>
-              <p className="text-xs text-slate-500">Soru</p>
-              <p className="text-sm font-bold text-slate-900">
+              <p className="text-xs text-slate-400">Soru</p>
+              <p className="text-sm font-bold text-slate-100">
                 {department.questionCount}
               </p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-              <Users className="h-4 w-4 text-emerald-600" />
+            <div className="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+              <Users className="h-4 w-4 text-emerald-400" />
             </div>
             <div>
-              <p className="text-xs text-slate-500">Kariyer</p>
-              <p className="text-sm font-bold text-slate-900">
+              <p className="text-xs text-slate-400">Kariyer</p>
+              <p className="text-sm font-bold text-slate-100">
                 {department.careerCount}
               </p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
-              <Star className="h-4 w-4 text-amber-600" />
+            <div className="w-8 h-8 bg-amber-500/10 rounded-lg flex items-center justify-center">
+              <Clock className="h-4 w-4 text-amber-400" />
             </div>
             <div>
-              <p className="text-xs text-slate-500">Süre</p>
-              <p className="text-sm font-bold text-slate-900">15 dk</p>
+              <p className="text-xs text-slate-400">Süre</p>
+              <p className="text-sm font-bold text-slate-100">15 dk</p>
             </div>
           </div>
         </div>

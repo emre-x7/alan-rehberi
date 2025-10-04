@@ -34,7 +34,7 @@ const ResultsSummary: React.FC<ResultsSummaryProps> = ({ results }) => {
       icon: Book,
       label: "Bölüm",
       value: results.departmentName,
-      color: "blue",
+      color: "sky",
     },
     {
       icon: Calendar,
@@ -58,38 +58,40 @@ const ResultsSummary: React.FC<ResultsSummaryProps> = ({ results }) => {
 
   const getColorClasses = (color: string) => {
     switch (color) {
-      case "blue":
-        return "bg-blue-100 text-blue-600";
+      case "sky":
+        return "bg-sky-500/10 text-sky-400 border-sky-500/20";
       case "emerald":
-        return "bg-emerald-100 text-emerald-600";
+        return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
       case "purple":
-        return "bg-purple-100 text-purple-600";
+        return "bg-purple-500/10 text-purple-400 border-purple-500/20";
       case "amber":
-        return "bg-amber-100 text-amber-600";
+        return "bg-amber-500/10 text-amber-400 border-amber-500/20";
       default:
-        return "bg-slate-100 text-slate-600";
+        return "bg-slate-500/10 text-slate-400 border-slate-500/20";
     }
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-600 rounded-2xl shadow-strong p-8 text-white">
+    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-strong p-8 text-slate-100 border border-slate-700">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.label}
-              className="text-center p-4 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20"
+              className={`text-center p-4 rounded-xl backdrop-blur-sm border ${getColorClasses(
+                stat.color
+              )}`}
             >
               <div
-                className={`w-12 h-12 ${getColorClasses(
+                className={`w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3 ${getColorClasses(
                   stat.color
-                )} rounded-2xl flex items-center justify-center mx-auto mb-3`}
+                )}`}
               >
                 <Icon className="h-6 w-6" />
               </div>
-              <p className="text-sm text-blue-100 mb-1">{stat.label}</p>
-              <p className="text-lg font-bold">{stat.value}</p>
+              <p className="text-sm text-slate-400 mb-1">{stat.label}</p>
+              <p className="text-lg font-bold text-slate-100">{stat.value}</p>
             </div>
           );
         })}
