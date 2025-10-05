@@ -2,6 +2,7 @@ import React from "react";
 import { RouteObject } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Layout from "../components/layout/Layout";
+import Landing from "../pages/Landing";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
@@ -13,6 +14,10 @@ import CareerDetail from "../pages/CareerDetail";
 
 export const routes: RouteObject[] = [
   {
+    path: "/",
+    element: <Landing />,
+  },
+  {
     path: "/login",
     element: <Login />,
   },
@@ -21,10 +26,10 @@ export const routes: RouteObject[] = [
     element: <Register />,
   },
   {
-    path: "/",
+    path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <Dashboard />
+        <Dashboard />{" "}
       </ProtectedRoute>
     ),
   },

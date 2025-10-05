@@ -26,7 +26,7 @@ const TestHistoryCard: React.FC<TestHistoryCardProps> = ({ result }) => {
   const topCareer = result.careerResults[0];
 
   return (
-    <div className="group card p-6 hover:shadow-strong transition-all duration-500">
+    <div className="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-all duration-500 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600">
       <div className="flex flex-col md:flex-row justify-between md:items-start space-y-4 md:space-y-0">
         <div className="flex-1">
           <div className="flex items-start space-x-4 mb-4">
@@ -34,10 +34,10 @@ const TestHistoryCard: React.FC<TestHistoryCardProps> = ({ result }) => {
               <Zap className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-100 group-hover:text-amber-400 transition-colors">
+              <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                 {result.departmentName} Testi
               </h3>
-              <div className="flex flex-wrap gap-4 items-center text-sm text-slate-400 mt-2">
+              <div className="flex flex-wrap gap-4 items-center text-sm text-slate-600 dark:text-slate-400 mt-2">
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
                   {formatDate(result.completedAt || result.startedAt)}
@@ -51,23 +51,23 @@ const TestHistoryCard: React.FC<TestHistoryCardProps> = ({ result }) => {
           </div>
 
           <div className="mb-4">
-            <h4 className="text-sm font-semibold text-slate-300 mb-3 flex items-center">
+            <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center">
               <Target className="h-4 w-4 mr-2" />
-              En İyi 3 Kariyer:
+              En Uygun 3 Alan:
             </h4>
             <div className="flex flex-wrap gap-2">
               {result.careerResults.slice(0, 3).map((career, index) => (
                 <span
                   key={career.careerId}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-700/50 text-slate-300 border border-slate-600"
+                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600"
                 >
                   <span
                     className={`w-4 h-4 rounded-full flex items-center justify-center text-xs mr-2 ${
                       index === 0
-                        ? "bg-amber-500/20 text-amber-400"
+                        ? "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400"
                         : index === 1
-                        ? "bg-slate-500/20 text-slate-400"
-                        : "bg-orange-500/20 text-orange-400"
+                        ? "bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-300"
+                        : "bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-400"
                     }`}
                   >
                     {index + 1}
@@ -81,7 +81,7 @@ const TestHistoryCard: React.FC<TestHistoryCardProps> = ({ result }) => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <div className="inline-flex items-center px-3 py-1 bg-sky-500/10 text-sky-400 text-sm font-semibold rounded-full border border-sky-500/20">
+          <div className="inline-flex items-center px-3 py-1 bg-sky-100 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 text-sm font-semibold rounded-full border border-sky-200 dark:border-sky-500/20">
             {result.careerResults.length} kariyer
           </div>
           <Link
@@ -92,15 +92,9 @@ const TestHistoryCard: React.FC<TestHistoryCardProps> = ({ result }) => {
             }
             className={`inline-flex items-center font-semibold transition-all duration-300 ${
               result.questionnaireId > 0
-                ? "text-amber-400 hover:text-amber-300 group-hover:translate-x-1"
-                : "text-slate-500 cursor-not-allowed"
+                ? "text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 group-hover:translate-x-1"
+                : "text-slate-400 cursor-not-allowed"
             }`}
-            onClick={(e) => {
-              if (result.questionnaireId <= 0) {
-                e.preventDefault();
-                alert("Bu test henüz tamamlanmamış veya sonuçlar hazır değil.");
-              }
-            }}
           >
             Detayları Gör
             <ArrowRight className="h-4 w-4 ml-1" />

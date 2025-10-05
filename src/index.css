@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light dark;
 }
 
 body {
@@ -12,17 +12,21 @@ body {
     "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.dark body {
   background-color: #0f172a;
   color: #f1f5f9;
 }
 
-/* Yeni Component Sınıfları */
 .btn-primary {
   @apply bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-900 font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md;
 }
 
 .btn-secondary {
-  @apply bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold py-3 px-6 rounded-xl border border-slate-600 hover:border-slate-500 transition-all duration-300;
+  @apply bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-6 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300;
 }
 
 .btn-accent {
@@ -30,40 +34,75 @@ body {
 }
 
 .input-field {
-  @apply w-full px-4 py-3 bg-slate-800 border-2 border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all duration-200 text-slate-100 placeholder-slate-400;
+  @apply w-full px-4 py-3 bg-white border-2 border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 placeholder-slate-500;
+}
+
+/* Dark mode override */
+.dark .input-field {
+  @apply bg-slate-800 border-slate-600 text-slate-100 placeholder-slate-400;
+}
+
+/* Autocomplete stillerini override et */
+.input-field:-webkit-autofill,
+.input-field:-webkit-autofill:hover,
+.input-field:-webkit-autofill:focus {
+  -webkit-text-fill-color: #1e293b; /* slate-800 */
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.dark .input-field:-webkit-autofill,
+.dark .input-field:-webkit-autofill:hover,
+.dark .input-field:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f1f5f9;
+  -webkit-box-shadow: 0 0 0px 1000px #1e293b inset;
+}
+
+/* Radio button stilleri */
+.radio-option {
+  @apply flex items-center p-4 border-2 border-slate-300 rounded-xl hover:border-sky-400 cursor-pointer transition-all duration-300 bg-white hover:bg-slate-50;
+}
+
+.dark .radio-option {
+  @apply border-slate-600 bg-slate-700/50 hover:border-sky-500/50 hover:bg-slate-600/50;
+}
+
+.radio-input {
+  @apply w-4 h-4 text-sky-600 focus:ring-sky-500 border-slate-300 bg-white;
+}
+
+.dark .radio-input {
+  @apply text-sky-500 border-slate-500 bg-slate-800;
 }
 
 .card {
-  @apply bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-700;
+  @apply bg-white dark:bg-slate-800 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-slate-200 dark:border-slate-700;
 }
 
 .card-interactive {
-  @apply bg-slate-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-700 hover:border-slate-600;
+  @apply bg-white dark:bg-slate-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600;
 }
 
-/* Progress Bar */
 .progress-bar {
-  @apply w-full bg-slate-700 rounded-full h-2 overflow-hidden;
+  @apply w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden;
 }
 
 .progress-fill {
   @apply h-2 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full transition-all duration-500;
 }
 
-/* Level Badges */
 .level-beginner {
-  @apply bg-emerald-500/20 text-emerald-300 border border-emerald-500/30;
+  @apply bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30;
 }
 
 .level-intermediate {
-  @apply bg-amber-500/20 text-amber-300 border border-amber-500/30;
+  @apply bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30;
 }
 
 .level-advanced {
-  @apply bg-rose-500/20 text-rose-300 border border-rose-500/30;
+  @apply bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30;
 }
 
-/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -94,20 +133,95 @@ body {
   animation: slideIn 0.5s ease-out forwards;
 }
 
-/* Custom Scrollbar */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+* {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+    backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.dark ::-webkit-scrollbar-track {
   background: #1e293b;
 }
 
 ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
   background: #475569;
-  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  background: #94a3b8;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes celebrate {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.celebrate {
+  animation: celebrate 0.6s ease-out forwards;
 }

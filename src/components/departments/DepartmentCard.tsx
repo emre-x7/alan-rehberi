@@ -32,11 +32,11 @@ const DepartmentCard: React.FC<DepartmentCardProps> = ({ department }) => {
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <h3 className="text-xl font-bold text-slate-100 mb-2 group-hover:text-amber-400 transition-colors">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
               {department.name}
             </h3>
             {department.description && (
-              <p className="text-slate-400 text-sm leading-relaxed line-clamp-2">
+              <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-2">
                 {department.description}
               </p>
             )}
@@ -48,39 +48,41 @@ const DepartmentCard: React.FC<DepartmentCardProps> = ({ department }) => {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="flex items-center justify-between mb-6 py-4 px-4 bg-slate-700/50 rounded-xl border border-slate-600">
+        {/* Stats - LIGHT MODE DÜZELTMESİ */}
+        <div className="flex items-center justify-between mb-6 py-4 px-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl border border-slate-200 dark:border-slate-600">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-sky-500/10 rounded-lg flex items-center justify-center">
-              <Target className="h-4 w-4 text-sky-400" />
+            <div className="w-8 h-8 bg-sky-100 dark:bg-sky-500/10 rounded-lg flex items-center justify-center">
+              <Target className="h-4 w-4 text-sky-600 dark:text-sky-400" />
             </div>
             <div>
-              <p className="text-xs text-slate-400">Soru</p>
-              <p className="text-sm font-bold text-slate-100">
+              <p className="text-xs text-slate-500 dark:text-slate-400">Soru</p>
+              <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
                 {department.questionCount}
               </p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center">
-              <Users className="h-4 w-4 text-emerald-400" />
+            <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-500/10 rounded-lg flex items-center justify-center">
+              <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             </div>
             <div>
-              <p className="text-xs text-slate-400">Kariyer</p>
-              <p className="text-sm font-bold text-slate-100">
+              <p className="text-xs text-slate-500 dark:text-slate-400">Alan</p>
+              <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
                 {department.careerCount}
               </p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-amber-500/10 rounded-lg flex items-center justify-center">
-              <Clock className="h-4 w-4 text-amber-400" />
+            <div className="w-8 h-8 bg-amber-100 dark:bg-amber-500/10 rounded-lg flex items-center justify-center">
+              <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </div>
             <div>
-              <p className="text-xs text-slate-400">Süre</p>
-              <p className="text-sm font-bold text-slate-100">15 dk</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Süre</p>
+              <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                15 dk
+              </p>
             </div>
           </div>
         </div>
@@ -99,7 +101,7 @@ const DepartmentCard: React.FC<DepartmentCardProps> = ({ department }) => {
         isOpen={showConfirmation}
         onClose={handleCancel}
         onConfirm={handleConfirm}
-        title="Testi Başlatmak İstediğinden Emin misin?"
+        title="Testi başlatmak istediğinden emin misin?"
         message={`${department.name} bölümü için kariyer testini başlatmak üzeresin. Test yaklaşık 10-15 dakika sürecek ve sana özel kariyer önerileri sunacağız.`}
         confirmText="Evet, Başlat"
         cancelText="Hayır, İptal"

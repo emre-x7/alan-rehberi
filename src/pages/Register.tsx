@@ -1,4 +1,3 @@
-// src/pages/Register.tsx - YENİ DARK MODE
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -36,9 +35,8 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 dark:from-slate-900 dark:via-slate-950 dark:to-blue-950 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full space-y-8 fade-in-up">
-        {/* Logo ve Başlık */}
         <div className="text-center">
           <div className="flex justify-center mb-6">
             <div className="relative">
@@ -52,19 +50,18 @@ const Register: React.FC = () => {
               </div>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-slate-100 mb-3">
-            Kariyer Yolculuğuna Başla
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+            Kendine En Uygun Alanı Keşfet
           </h1>
-          <p className="text-slate-400">
-            Sana en uygun kariyer yolunu keşfetmek için aramıza katıl
+          <p className="text-slate-600 dark:text-slate-400">
+            Sana en uygun kariyer yolunu keşfet — hemen ücretsiz katıl!
           </p>
         </div>
 
-        {/* Form */}
         <div className="card p-8">
           <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
             {error && (
-              <div className="bg-rose-500/10 border-2 border-rose-500/20 text-rose-300 px-4 py-3 rounded-xl flex items-center">
+              <div className="bg-rose-50 dark:bg-rose-500/10 border-2 border-rose-200 dark:border-rose-500/20 text-rose-700 dark:text-rose-300 px-4 py-3 rounded-xl flex items-center">
                 <svg
                   className="h-5 w-5 mr-2 flex-shrink-0"
                   fill="currentColor"
@@ -80,14 +77,15 @@ const Register: React.FC = () => {
               </div>
             )}
 
-            {/* Kişisel Bilgiler */}
             <div className="space-y-6">
-              <div className="pb-4 border-b border-slate-700/60">
-                <h3 className="text-lg font-semibold text-slate-100 flex items-center">
+              <div className="pb-4 border-b border-slate-200 dark:border-slate-700">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 flex items-center">
                   <span className="w-2 h-6 bg-sky-500 rounded-full mr-3"></span>
                   Kişisel Bilgiler
                 </h3>
-                <p className="text-sm text-slate-400 mt-1">Seni tanıyalım</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                  Seni tanıyalım
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -96,14 +94,14 @@ const Register: React.FC = () => {
                   register={register}
                   name="firstName"
                   error={errors.firstName}
-                  placeholder="Adın"
+                  // placeholder="Adın"
                 />
                 <FormInput
                   label="Soyad"
                   register={register}
                   name="lastName"
                   error={errors.lastName}
-                  placeholder="Soyadın"
+                  // placeholder="Soyadın"
                 />
               </div>
 
@@ -113,7 +111,7 @@ const Register: React.FC = () => {
                 register={register}
                 name="email"
                 error={errors.email}
-                placeholder="ornek@universite.edu.tr"
+                // placeholder="ornek@universite.edu.tr"
               />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -136,14 +134,13 @@ const Register: React.FC = () => {
               </div>
             </div>
 
-            {/* Eğitim Bilgileri */}
             <div className="space-y-6 pt-4">
-              <div className="pb-4 border-b border-slate-700/60">
-                <h3 className="text-lg font-semibold text-slate-100 flex items-center">
+              <div className="pb-4 border-b border-slate-200 dark:border-slate-700">
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 flex items-center">
                   <span className="w-2 h-6 bg-emerald-500 rounded-full mr-3"></span>
                   Eğitim Bilgilerin
                 </h3>
-                <p className="text-sm text-slate-400 mt-1">
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
                   Hangi bölümde okuyorsun?
                 </p>
               </div>
@@ -154,19 +151,19 @@ const Register: React.FC = () => {
                   register={register}
                   name="university"
                   error={errors.university}
-                  placeholder="Üniversite adı"
+                  // placeholder="Üniversite adı"
                 />
                 <FormInput
                   label="Bölüm"
                   register={register}
                   name="department"
                   error={errors.department}
-                  placeholder="Bölüm adı"
+                  // placeholder="Bölüm adı"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Sınıf
                 </label>
                 <select
@@ -180,40 +177,39 @@ const Register: React.FC = () => {
                   <option value={4}>4. Sınıf</option>
                 </select>
                 {errors.academicYear && (
-                  <p className="mt-1 text-sm text-rose-400">
+                  <p className="mt-1 text-sm text-rose-600 dark:text-rose-400">
                     {errors.academicYear.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-3">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
                   Cinsiyet
                 </label>
+
                 <div className="space-y-3">
                   {[
                     { value: 1, label: "Erkek" },
                     { value: 2, label: "Kadın" },
                     { value: 3, label: "Belirtmek İstemiyorum" },
                   ].map((option) => (
-                    <label
-                      key={option.value}
-                      className="flex items-center p-4 border-2 border-slate-600 rounded-xl hover:border-sky-500/50 cursor-pointer transition-all duration-300 bg-slate-700/50"
-                    >
+                    <label key={option.value} className="radio-option">
                       <input
                         type="radio"
                         {...register("gender", { valueAsNumber: true })}
                         value={option.value}
-                        className="w-4 h-4 text-sky-500 focus:ring-sky-500 border-slate-500 bg-slate-800"
+                        className="radio-input"
                       />
-                      <span className="ml-3 text-sm font-medium text-slate-300">
+                      <span className="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                         {option.label}
                       </span>
                     </label>
                   ))}
                 </div>
+
                 {errors.gender && (
-                  <p className="mt-1 text-sm text-rose-400">
+                  <p className="mt-1 text-sm text-rose-600 dark:text-rose-400">
                     {errors.gender.message}
                   </p>
                 )}
@@ -228,13 +224,13 @@ const Register: React.FC = () => {
               />
             </div>
 
-            <div className="text-center pt-6 border-t border-slate-700/60">
-              <p className="text-sm text-slate-400 mb-3">
+            <div className="text-center pt-6 border-t border-slate-200 dark:border-slate-700">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
                 Zaten hesabın var mı?
               </p>
               <Link
                 to="/login"
-                className="inline-flex items-center text-amber-400 hover:text-amber-300 font-semibold transition-all duration-300 group"
+                className="inline-flex items-center text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 font-semibold transition-all duration-300 group"
               >
                 Giriş Yap
                 <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />

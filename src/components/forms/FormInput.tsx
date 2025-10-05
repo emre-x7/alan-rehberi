@@ -9,6 +9,7 @@ interface FormInputProps {
   error?: FieldError;
   placeholder?: string;
   className?: string;
+  autoComplete?: string;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -19,20 +20,22 @@ const FormInput: React.FC<FormInputProps> = ({
   error,
   placeholder,
   className = "",
+  autoComplete = "on", // Varsayılan değer
 }) => {
   return (
     <div className={`space-y-2 ${className}`}>
-      <label className="block text-sm font-semibold text-slate-300">
+      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
         {label}
       </label>
       <input
         type={type}
         {...register(name)}
         placeholder={placeholder}
+        autoComplete={autoComplete} // Autocomplete ekle
         className="input-field"
       />
       {error && (
-        <p className="text-sm text-rose-400 flex items-center">
+        <p className="text-sm text-rose-600 dark:text-rose-400 flex items-center">
           <svg
             className="h-4 w-4 mr-1 flex-shrink-0"
             fill="currentColor"

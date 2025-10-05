@@ -59,20 +59,20 @@ const ResultsSummary: React.FC<ResultsSummaryProps> = ({ results }) => {
   const getColorClasses = (color: string) => {
     switch (color) {
       case "sky":
-        return "bg-sky-500/10 text-sky-400 border-sky-500/20";
+        return "bg-sky-100 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-500/20";
       case "emerald":
-        return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+        return "bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20";
       case "purple":
-        return "bg-purple-500/10 text-purple-400 border-purple-500/20";
+        return "bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-500/20";
       case "amber":
-        return "bg-amber-500/10 text-amber-400 border-amber-500/20";
+        return "bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20";
       default:
-        return "bg-slate-500/10 text-slate-400 border-slate-500/20";
+        return "bg-slate-100 dark:bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-500/20";
     }
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-strong p-8 text-slate-100 border border-slate-700">
+    <div className="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-900 rounded-2xl shadow-strong p-8 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
@@ -90,8 +90,12 @@ const ResultsSummary: React.FC<ResultsSummaryProps> = ({ results }) => {
               >
                 <Icon className="h-6 w-6" />
               </div>
-              <p className="text-sm text-slate-400 mb-1">{stat.label}</p>
-              <p className="text-lg font-bold text-slate-100">{stat.value}</p>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">
+                {stat.label}
+              </p>
+              <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                {stat.value}
+              </p>
             </div>
           );
         })}
