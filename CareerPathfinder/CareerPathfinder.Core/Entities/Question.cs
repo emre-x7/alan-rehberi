@@ -9,11 +9,12 @@ namespace CareerPathfinder.Core.Entities
         public int Id { get; set; }
 
         [Required]
-        public string Content { get; set; } = string.Empty; // Soru metni
+        public string Content { get; set; } = string.Empty;
 
         public int Order { get; set; } // Soru sırası (1, 2, 3...)
 
         public bool IsActive { get; set; } = true; // Soru aktif mi?
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Bu soru hangi bölüme ait? (Örn: "API yazmak..." sorusu -> YBS)
         [ForeignKey(nameof(Department))]

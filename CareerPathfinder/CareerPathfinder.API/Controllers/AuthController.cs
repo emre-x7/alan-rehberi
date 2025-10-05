@@ -48,7 +48,7 @@ namespace CareerPathfinder.API.Controllers
                     throw new BadRequestException("Bu e-posta adresi zaten kayıtlı.");
                 }
 
-                // Yeni kullanıcı oluştur
+                // Yeni kullanıcı oluştur (yeni alanlar dahil)
                 var user = _mapper.Map<AppUser>(request);
                 var result = await _userManager.CreateAsync(user, request.Password);
 
@@ -61,16 +61,15 @@ namespace CareerPathfinder.API.Controllers
                     return BadRequest(new { errors });
                 }
 
-                _logger.LogInformation("User registered successfully: {Email} (UserID: {UserId})",
-                    request.Email, user.Id);
+                _logger.LogInformation("User registered successfully: {Email} (UserID: {UserId}) - University: {University}, Department: {Department}, Year: {Year}, Gender: {Gender}",
+                    request.Email, user.Id, request.University, request.Department, request.AcademicYear, request.Gender);
 
-                // JWT token oluştur ve döndür
+                // JWT token oluştur ve döndür (yeni alanlar dahil)
                 var token = await GenerateJwtToken(user);
                 return Ok(token);
             }
             catch (BadRequestException ex)
             {
-                // Bu exception'ı tekrar fırlat ki GlobalExceptionHandler yakalasın
                 throw;
             }
             catch (Exception ex)
@@ -95,6 +94,13 @@ namespace CareerPathfinder.API.Controllers
                     return Unauthorized(new { message = "E-posta veya şifre hatalı." });
                 }
 
+                // Kullanıcı aktif mi kontrol et
+                if (!user.IsActive)
+                {
+                    _logger.LogWarning("Login failed - user inactive: {Email}", request.Email);
+                    return Unauthorized(new { message = "Hesabınız pasif durumda. Lütfen yönetici ile iletişime geçin." });
+                }
+
                 // Şifreyi kontrol et
                 var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
                 if (!isPasswordValid)
@@ -102,6 +108,10 @@ namespace CareerPathfinder.API.Controllers
                     _logger.LogWarning("Login failed - invalid password for: {Email}", request.Email);
                     return Unauthorized(new { message = "E-posta veya şifre hatalı." });
                 }
+
+                // LastLoginAt güncelle
+                user.LastLoginAt = DateTime.UtcNow;
+                await _userManager.UpdateAsync(user);
 
                 _logger.LogInformation("User logged in successfully: {Email} (UserID: {UserId})",
                     request.Email, user.Id);
@@ -116,7 +126,6 @@ namespace CareerPathfinder.API.Controllers
                 throw;
             }
         }
-
         private async Task<AuthResponse> GenerateJwtToken(AppUser user)
         {
             _logger.LogDebug("Generating JWT token for user: {UserId}", user.Id);
@@ -127,18 +136,23 @@ namespace CareerPathfinder.API.Controllers
                 var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!);
                 var tokenExpiry = DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryInMinutes"]));
 
-                // JWT token için claims oluştur
+                // JWT token için claims oluştur (yeni alanlar dahil)
                 var claims = new List<Claim>
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim("firstName", user.FirstName),
-                    new Claim("lastName", user.LastName)
-                };
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim("firstName", user.FirstName),
+            new Claim("lastName", user.LastName),
 
-                // Kullanıcının rollerini claims'e ekle (ileride kullanılabilir)
+            new Claim("university", user.University),
+            new Claim("department", user.Department),
+            new Claim("academicYear", user.AcademicYear.ToString()),
+            new Claim("gender", user.Gender.ToString())
+        };
+
+                // Kullanıcının rollerini claims'e ekle
                 var roles = await _userManager.GetRolesAsync(user);
                 foreach (var role in roles)
                 {
@@ -163,7 +177,6 @@ namespace CareerPathfinder.API.Controllers
 
                 _logger.LogDebug("JWT token generated successfully for user: {UserId}", user.Id);
 
-                // AuthResponse nesnesini döndür
                 return new AuthResponse
                 {
                     Token = jwtToken,
@@ -171,7 +184,11 @@ namespace CareerPathfinder.API.Controllers
                     UserId = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
-                    LastName = user.LastName
+                    LastName = user.LastName,
+                    University = user.University,
+                    Department = user.Department,
+                    AcademicYear = user.AcademicYear,
+                    Gender = user.Gender
                 };
             }
             catch (Exception ex)

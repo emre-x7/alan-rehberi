@@ -1,7 +1,9 @@
 ﻿using CareerPathfinder.API.Middleware;
 using CareerPathfinder.Core.Entities;
 using CareerPathfinder.Core.Mappings;
+using CareerPathfinder.Core.Services;
 using CareerPathfinder.Infrastructure.Data;
+using CareerPathfinder.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(QuestionnaireMappingProfile));
 builder.Services.AddAutoMapper(typeof(AuthenticationMappingProfile));
 builder.Services.AddAutoMapper(typeof(DepartmentMappingProfile));
+builder.Services.AddAutoMapper(typeof(AdminMappingProfile));
+builder.Services.AddAutoMapper(typeof(CareerMappingProfile));
+
+// PDF Servisi
+builder.Services.AddScoped<IPdfService, PdfService>();
 
 //  Swagger + JWT Auth ekle
 builder.Services.AddSwaggerGen(options =>
@@ -126,12 +133,17 @@ var app = builder.Build();
 // Global Exception Handler Middleware
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
-// SEED DATA (Development ortamı için)
+// SEED DATA
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
+    // Rol ve kullanıcı yönetimi için gerekli servisler
     var context = services.GetRequiredService<ApplicationDbContext>();
-    await DataSeeder.SeedAsync(context);
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+
+    await DataSeeder.SeedAsync(context, userManager, roleManager);
 }
 
 // 5) HTTP request pipeline'ını yapılandır.

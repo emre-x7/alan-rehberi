@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace CareerPathfinder.Core.Entities
 {
     public class Career
@@ -15,13 +14,16 @@ namespace CareerPathfinder.Core.Entities
         [MaxLength(1000)]
         public string? Description { get; set; }
 
-        // Bu meslek hangi bölüme ait? (Örn: Backend Developer -> YBS)
+        public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
         [ForeignKey(nameof(Department))]
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; } = null!;
+        public virtual CareerDetail? CareerDetail { get; set; }
 
         // Navigation Properties
-        // Bu mesleğe ait puanlar (CareerScore) listesi
         public virtual ICollection<CareerScore> CareerScores { get; set; } = new List<CareerScore>();
+        public virtual ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
     }
 }

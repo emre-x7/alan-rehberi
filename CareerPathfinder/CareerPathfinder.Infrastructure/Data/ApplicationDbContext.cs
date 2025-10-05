@@ -18,23 +18,19 @@ namespace CareerPathfinder.Infrastructure.Data
         public DbSet<Questionnaire> Questionnaires => Set<Questionnaire>();
         public DbSet<Answer> Answers => Set<Answer>();
         public DbSet<TestResult> TestResults => Set<TestResult>();
+        public DbSet<CareerDetail> CareerDetails => Set<CareerDetail>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // Identity tablolarının ayarlarını uygula
             base.OnModelCreating(builder);
-
-            // Özel konfigürasyonlarımızı ve kısıtlamalarımızı burada yapacağız.
             ConfigureModels(builder);
         }
 
         private void ConfigureModels(ModelBuilder builder)
         {
-            // 1) CareerScore için Composite Primary Key tanımı
             builder.Entity<CareerScore>()
                 .HasKey(cs => new { cs.QuestionId, cs.CareerId }); // Composite Key
 
-            // 2) CareerScore için ilişki kısıtlamaları
             builder.Entity<CareerScore>()
                 .HasOne(cs => cs.Question)
                 .WithMany(q => q.CareerScores)
@@ -84,7 +80,35 @@ namespace CareerPathfinder.Infrastructure.Data
                 .HasForeignKey(tr => tr.QuestionnaireId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // İleride buraya seed data ve daha spesifik konfigürasyonlar eklenecek.
+            builder.Entity<CareerDetail>(entity =>
+            {
+                entity.HasKey(cd => cd.Id);
+
+                // Career ile one-to-one ilişki
+                entity.HasOne(cd => cd.Career)
+                      .WithOne(c => c.CareerDetail)
+                      .HasForeignKey<CareerDetail>(cd => cd.CareerId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                // Index ve constraint'ler
+                entity.HasIndex(cd => cd.CareerId).IsUnique();
+                entity.HasIndex(cd => cd.IsActive);
+
+                // Property konfigürasyonları
+                entity.Property(cd => cd.Summary).IsRequired().HasMaxLength(2000);
+                entity.Property(cd => cd.WorkAreas).HasMaxLength(1000);
+                entity.Property(cd => cd.AverageSalary).HasMaxLength(500);
+
+                // JSON column için konfigürasyon (PostgreSQL için)
+                entity.Property(cd => cd.BeginnerResources)
+                      .HasColumnType("jsonb");
+                entity.Property(cd => cd.IntermediateResources)
+                      .HasColumnType("jsonb");
+                entity.Property(cd => cd.AdvancedResources)
+                      .HasColumnType("jsonb");
+                entity.Property(cd => cd.ProjectIdeas)
+                      .HasColumnType("jsonb");
+            });
         }
     }
 }

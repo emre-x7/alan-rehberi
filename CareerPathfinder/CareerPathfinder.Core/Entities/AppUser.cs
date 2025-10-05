@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CareerPathfinder.Core.Enums;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace CareerPathfinder.Core.Entities
@@ -13,10 +14,26 @@ namespace CareerPathfinder.Core.Entities
         [MaxLength(50)]
         public string LastName { get; set; } = string.Empty;
 
+        [Required]
+        [MaxLength(100)]
+        public string University { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(100)]
+        public string Department { get; set; } = string.Empty;
+
+        [Required]
+        [Range(1, 4)]
+        public int AcademicYear { get; set; }
+
+        [Required]
+        public Gender Gender { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? LastLoginAt { get; set; }
+        public bool IsActive { get; set; } = true;
 
         // Navigation Properties
-        // Bu kullanıcının oluşturduğu anketler
         public virtual ICollection<Questionnaire> Questionnaires { get; set; } = new List<Questionnaire>();
     }
 }
