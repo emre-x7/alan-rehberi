@@ -25,11 +25,12 @@ AlanRehberi, üniversite öğrencilerinin mezuniyet sonrası kariyer yönelimler
 ToplamPuan = ∑(KullanıcıCevabı × MeslekAğırlığı)
 MaxİdealPuan = ∑(5 × MeslekAğırlığı)
 UyumYüzdesi = (ToplamPuan / MaxİdealPuan) × 100
+```
 
 
 ## 🏗️ Mimari Yapı
 
-```text
+```
 CareerPathfinder/
 ├── CareerPathfinder.API/              # Web API Katmanı
 │   ├── Controllers/                   # API Controller'ları
