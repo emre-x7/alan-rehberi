@@ -416,3 +416,8 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+
+# Ignore database seed and migrations
+CareerPathfinder.Infrastructure/Data/DataSeeder.cs
+CareerPathfinder.Infrastructure/Data/Migrations/
