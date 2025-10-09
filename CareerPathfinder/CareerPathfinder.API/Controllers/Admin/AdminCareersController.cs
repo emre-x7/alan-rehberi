@@ -38,7 +38,7 @@ namespace CareerPathfinder.API.Controllers.Admin
 
             var careerDtos = _mapper.Map<List<AdminCareerDto>>(careers);
 
-            
+
             foreach (var careerDto in careerDtos)
             {
                 careerDto.HasDetail = careers.First(c => c.Id == careerDto.Id).CareerDetail != null;
@@ -75,7 +75,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Bölüm bulunamadı." });
             }
 
-            // Aynı isimde meslek var mı kontrol et
             var existingCareer = await _context.Careers
                 .FirstOrDefaultAsync(c => c.Name.ToLower() == request.Name.ToLower() &&
                                          c.DepartmentId == request.DepartmentId);
@@ -96,7 +95,6 @@ namespace CareerPathfinder.API.Controllers.Admin
             _context.Careers.Add(career);
             await _context.SaveChangesAsync();
 
-            // Mesleği tekrar getirerek ilişkili verileri dahil et
             var createdCareer = await _context.Careers
                 .Include(c => c.Department)
                 .Include(c => c.CareerScores)
@@ -116,7 +114,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Meslek bulunamadı." });
             }
 
-            // İsim değişikliği için kontrol
             if (career.Name != request.Name)
             {
                 var existingCareer = await _context.Careers
@@ -152,7 +149,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Meslek bulunamadı." });
             }
 
-            // İlişkili veri kontrolü
             if (career.TestResults.Any())
             {
                 return BadRequest(new
@@ -181,13 +177,10 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Meslek bulunamadı." });
             }
 
-            // Departmana ait tüm sorular
             var allQuestions = career.Department.Questions.ToList();
 
-            // Mevcut puanlamalar
             var existingScores = career.CareerScores.ToDictionary(cs => cs.QuestionId, cs => cs.Score);
 
-            // Her soru için puanlama yap
             var scores = allQuestions.Select(q => new CareerScoreDto
             {
                 QuestionId = q.Id,
@@ -215,15 +208,12 @@ namespace CareerPathfinder.API.Controllers.Admin
 
             try
             {
-                // Mevcut puanları temizle
                 var existingScores = _context.CareerScores.Where(cs => cs.CareerId == request.CareerId);
                 _context.CareerScores.RemoveRange(existingScores);
 
-                // Yeni puanları ekle
                 var newScores = new List<CareerScore>();
                 foreach (var scoreDto in request.Scores)
                 {
-                    // Sorunun bu bölüme ait olduğunu kontrol et
                     var question = career.Department.Questions.FirstOrDefault(q => q.Id == scoreDto.QuestionId);
                     if (question == null)
                     {

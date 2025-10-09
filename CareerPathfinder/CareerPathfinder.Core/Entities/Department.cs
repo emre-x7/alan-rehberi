@@ -14,9 +14,8 @@ namespace CareerPathfinder.Core.Entities
         public string? Description { get; set; }
 
         public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow; // YENİ EKLENDİ
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow; 
 
-        // Navigation Properties
         public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
         public virtual ICollection<Career> Careers { get; set; } = new List<Career>();
     }

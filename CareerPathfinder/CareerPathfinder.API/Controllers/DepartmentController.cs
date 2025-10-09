@@ -25,7 +25,6 @@ namespace CareerPathfinder.API.Controllers
             _logger = logger;
         }
 
-        // GET: api/departments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DepartmentDto>>> GetDepartments()
         {
@@ -36,7 +35,7 @@ namespace CareerPathfinder.API.Controllers
                 var departments = await _context.Departments
                     .Include(d => d.Questions)
                     .Include(d => d.Careers)
-                    .Where(d => d.Questions.Any(q => q.IsActive)) // Sadece sorulu bölümler
+                    .Where(d => d.Questions.Any(q => q.IsActive)) 
                     .OrderBy(d => d.Name)
                     .ToListAsync();
 
@@ -52,7 +51,6 @@ namespace CareerPathfinder.API.Controllers
             }
         }
 
-        // GET: api/departments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<DepartmentDto>> GetDepartment(int id)
         {
@@ -81,7 +79,6 @@ namespace CareerPathfinder.API.Controllers
             }
         }
 
-        // GET: api/departments/with-questions
         [HttpGet("with-questions")]
         public async Task<ActionResult<IEnumerable<DepartmentDto>>> GetDepartmentsWithQuestions()
         {

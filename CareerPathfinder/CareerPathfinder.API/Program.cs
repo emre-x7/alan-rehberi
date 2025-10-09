@@ -14,13 +14,12 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Serilog konfigürasyonu
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .CreateLogger();
 
-builder.Host.UseSerilog(); // IHostBuilder'a Serilog'u ekle
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -69,12 +68,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// 1) DbContext Servisini Ekle (PostgreSQL ile)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 
-    // Development ortamında detaylı logging
     if (builder.Environment.IsDevelopment())
     {
         options.EnableSensitiveDataLogging();
@@ -82,7 +79,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     }
 });
 
-// 2) Identity Servisini Yapılandır ve Ekle
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
     options.Password.RequiredLength = 6;
@@ -117,7 +113,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// 4) CORS Politikasını Ekle (React frontend için gerekli)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
@@ -133,20 +128,7 @@ var app = builder.Build();
 // Global Exception Handler Middleware
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
-// SEED DATA
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
 
-    // Rol ve kullanıcı yönetimi için gerekli servisler
-    var context = services.GetRequiredService<ApplicationDbContext>();
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
-
-    await DataSeeder.SeedAsync(context, userManager, roleManager);
-}
-
-// 5) HTTP request pipeline'ını yapılandır.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

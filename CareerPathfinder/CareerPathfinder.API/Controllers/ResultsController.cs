@@ -22,18 +22,16 @@ namespace CareerPathfinder.API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Results/questionnaire/5
         [HttpGet("questionnaire/{questionnaireId}")]
         public async Task<ActionResult<QuestionnaireResultDto>> GetQuestionnaireResults(int questionnaireId)
         {
-            // Kullanıcıyı al
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Unauthorized();
             }
 
-            // Anketi ve sonuçlarını getir (kullanıcı kontrolü)
             var questionnaire = await _context.Questionnaires
                 .Include(q => q.Department)
                 .Include(q => q.TestResults)
@@ -45,23 +43,19 @@ namespace CareerPathfinder.API.Controllers
                 return NotFound(new { message = "Sonuçlar bulunamadı veya anket henüz tamamlanmamış." });
             }
 
-            //AutoMapper kullanarak dönüşüm
             var resultDto = _mapper.Map<QuestionnaireResultDto>(questionnaire);
             return Ok(resultDto);
         }
 
-        // GET: api/Results/user
         [HttpGet("user")]
         public async Task<ActionResult<IEnumerable<QuestionnaireResultDto>>> GetUserResults()
         {
-            // Kullanıcıyı al
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Unauthorized();
             }
 
-            // Kullanıcının tüm tamamlanmış anketlerini ve sonuçlarını getir
             var questionnaires = await _context.Questionnaires
                 .Where(q => q.UserId == userId && q.Status == Core.Enums.QuestionnaireStatus.Completed)
                 .Include(q => q.Department)
@@ -74,18 +68,15 @@ namespace CareerPathfinder.API.Controllers
             return Ok(resultDtos);
         }
 
-        // GET: api/Results/top-careers
         [HttpGet("top-careers")]
         public async Task<ActionResult<IEnumerable<CareerResultDto>>> GetTopCareers()
         {
-            // Kullanıcıyı al
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Unauthorized();
             }
 
-            // Kullanıcının en yüksek uyum skoruna sahip kariyerlerini getir (tüm anketlerden)
             var topCareers = await _context.TestResults
                 .Where(tr => tr.Questionnaire.UserId == userId)
                 .GroupBy(tr => tr.CareerId)
@@ -96,7 +87,7 @@ namespace CareerPathfinder.API.Controllers
                     Career = g.First().Career
                 })
                 .OrderByDescending(x => x.AvgCompatibility)
-                .Take(5) // En iyi 5 kariyer
+                .Take(5)
                 .ToListAsync();
 
             var resultDtos = topCareers.Select((x, index) => new CareerResultDto

@@ -51,7 +51,6 @@ namespace CareerPathfinder.API.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<AdminDepartmentDto>> CreateDepartment([FromBody] CreateDepartmentRequest request)
         {
-            // Aynı isimde bölüm var mı kontrol et
             var existingDepartment = await _context.Departments
                 .FirstOrDefaultAsync(d => d.Name.ToLower() == request.Name.ToLower());
 
@@ -82,7 +81,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Bölüm bulunamadı." });
             }
 
-            // İsim değişikliği için kontrol (başka bölümde aynı isim var mı?)
             if (department.Name != request.Name)
             {
                 var existingDepartment = await _context.Departments
@@ -116,7 +114,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Bölüm bulunamadı." });
             }
 
-            // İlişkili veri kontrolü
             if (department.Questions.Any() || department.Careers.Any())
             {
                 return BadRequest(new

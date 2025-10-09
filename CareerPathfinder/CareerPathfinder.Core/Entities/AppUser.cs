@@ -33,7 +33,6 @@ namespace CareerPathfinder.Core.Entities
         public DateTime? LastLoginAt { get; set; }
         public bool IsActive { get; set; } = true;
 
-        // Navigation Properties
         public virtual ICollection<Questionnaire> Questionnaires { get; set; } = new List<Questionnaire>();
     }
 }

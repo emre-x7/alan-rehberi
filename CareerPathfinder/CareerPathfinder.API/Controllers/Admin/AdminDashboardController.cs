@@ -35,45 +35,6 @@ namespace CareerPathfinder.API.Controllers.Admin
             return Ok(dashboardData);
         }
 
-        //[HttpGet("charts/test-completions")]
-        //public async Task<ActionResult> GetTestCompletionChart([FromQuery] DateRangeRequest dateRange)
-        //{
-        //    var startDate = dateRange.StartDate ?? DateTime.UtcNow.AddDays(-30);
-        //    var endDate = dateRange.EndDate ?? DateTime.UtcNow;
-
-        //    var dailyCompletions = await _context.Questionnaires
-        //        .Where(q => q.CompletedAt >= startDate && q.CompletedAt <= endDate)
-        //        .GroupBy(q => q.CompletedAt.Value.Date)
-        //        .Select(g => new
-        //        {
-        //            Date = g.Key,
-        //            Count = g.Count()
-        //        })
-        //        .OrderBy(x => x.Date)
-        //        .ToListAsync();
-
-        //    return Ok(dailyCompletions);
-        //}
-
-        //[HttpGet("charts/department-distribution")]
-        //public async Task<ActionResult> GetDepartmentDistributionChart()
-        //{
-        //    var distribution = await _context.Questionnaires
-        //        .Include(q => q.Department)
-        //        .Where(q => q.Status == Core.Enums.QuestionnaireStatus.Completed)
-        //        .GroupBy(q => new { q.DepartmentId, q.Department.Name })
-        //        .Select(g => new
-        //        {
-        //            DepartmentName = g.Key.Name,
-        //            Count = g.Count(),
-        //            Percentage = (decimal)g.Count() / _context.Questionnaires.Count(q => q.Status == Core.Enums.QuestionnaireStatus.Completed) * 100
-        //        })
-        //        .OrderByDescending(x => x.Count)
-        //        .ToListAsync();
-
-        //    return Ok(distribution);
-        //}
-
         private async Task<GeneralStatsDto> GetGeneralStats()
         {
             return new GeneralStatsDto
@@ -99,62 +60,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 ActiveUsersThisWeek = await _context.Users.CountAsync(u => u.LastLoginAt.HasValue && u.LastLoginAt.Value >= weekAgo)
             };
         }
-
-        //[HttpGet("charts/university-distribution")]
-        //public async Task<ActionResult> GetUniversityDistributionChart()
-        //{
-        //    var distribution = await _context.Users
-        //        .GroupBy(u => u.University)
-        //        .Select(g => new
-        //        {
-        //            University = g.Key,
-        //            Count = g.Count(),
-        //            Percentage = (decimal)g.Count() / _context.Users.Count() * 100
-        //        })
-        //        .OrderByDescending(x => x.Count)
-        //        .Take(10) // En fazla kullanıcıya sahip 10 üniversite
-        //        .ToListAsync();
-
-        //    return Ok(distribution);
-        //}
-
-        //[HttpGet("charts/department-distribution")]
-        //public async Task<ActionResult> GetUserDepartmentDistributionChart()
-        //{
-        //    // Toplam kullanıcı sayısını ayrıca al
-        //    var totalUsers = await _context.Users.CountAsync();
-
-        //    var distribution = await _context.Users
-        //        .GroupBy(u => u.Department)
-        //        .Select(g => new
-        //        {
-        //            Department = g.Key,
-        //            Count = g.Count(),
-        //            Percentage = totalUsers > 0 ? Math.Round((decimal)g.Count() / totalUsers * 100, 2) : 0
-        //        })
-        //        .OrderByDescending(x => x.Count)
-        //        .Take(10)
-        //        .ToListAsync();
-
-        //    return Ok(distribution);
-        //}
-
-        //[HttpGet("charts/academic-year-distribution")]
-        //public async Task<ActionResult> GetAcademicYearDistributionChart()
-        //{
-        //    var distribution = await _context.Users
-        //        .GroupBy(u => u.AcademicYear)
-        //        .Select(g => new
-        //        {
-        //            AcademicYear = g.Key,
-        //            Count = g.Count(),
-        //            Percentage = (decimal)g.Count() / _context.Users.Count() * 100
-        //        })
-        //        .OrderBy(x => x.AcademicYear)
-        //        .ToListAsync();
-
-        //    return Ok(distribution);
-        //}
 
         private async Task<TestStatsDto> GetTestStats(DateTime startDate, DateTime endDate)
         {
@@ -218,7 +123,6 @@ namespace CareerPathfinder.API.Controllers.Admin
         {
             var activities = new List<RecentActivityDto>();
 
-            // Son kayıt olan kullanıcılar
             var recentUsers = await _context.Users
                 .OrderByDescending(u => u.CreatedAt)
                 .Take(count / 2)
@@ -232,7 +136,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 })
                 .ToListAsync();
 
-            // Son tamamlanan testler
             var recentTests = await _context.Questionnaires
                 .Include(q => q.User)
                 .Include(q => q.Department)

@@ -65,7 +65,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Bölüm bulunamadı." });
             }
 
-            // Aynı içerikte soru var mı kontrol et
             var existingQuestion = await _context.Questions
                 .FirstOrDefaultAsync(q => q.Content.ToLower() == request.Content.ToLower() &&
                                          q.DepartmentId == request.DepartmentId);
@@ -87,7 +86,6 @@ namespace CareerPathfinder.API.Controllers.Admin
             _context.Questions.Add(question);
             await _context.SaveChangesAsync();
 
-            // Soruyu tekrar getirerek ilişkili verileri dahil et
             var createdQuestion = await _context.Questions
                 .Include(q => q.Department)
                 .Include(q => q.Answers)
@@ -106,7 +104,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Soru bulunamadı." });
             }
 
-            // İçerik değişikliği için kontrol
             if (question.Content != request.Content)
             {
                 var existingQuestion = await _context.Questions
@@ -142,7 +139,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Soru bulunamadı." });
             }
 
-            // İlişkili veri kontrolü
             if (question.Answers.Any())
             {
                 return BadRequest(new

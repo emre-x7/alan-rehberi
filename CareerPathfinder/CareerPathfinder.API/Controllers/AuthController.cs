@@ -40,7 +40,6 @@ namespace CareerPathfinder.API.Controllers
 
             try
             {
-                // Kullanıcı zaten var mı?
                 var existingUser = await _userManager.FindByEmailAsync(request.Email);
                 if (existingUser != null)
                 {
@@ -48,7 +47,6 @@ namespace CareerPathfinder.API.Controllers
                     throw new BadRequestException("Bu e-posta adresi zaten kayıtlı.");
                 }
 
-                // Yeni kullanıcı oluştur (yeni alanlar dahil)
                 var user = _mapper.Map<AppUser>(request);
                 var result = await _userManager.CreateAsync(user, request.Password);
 
@@ -64,7 +62,6 @@ namespace CareerPathfinder.API.Controllers
                 _logger.LogInformation("User registered successfully: {Email} (UserID: {UserId}) - University: {University}, Department: {Department}, Year: {Year}, Gender: {Gender}",
                     request.Email, user.Id, request.University, request.Department, request.AcademicYear, request.Gender);
 
-                // JWT token oluştur ve döndür (yeni alanlar dahil)
                 var token = await GenerateJwtToken(user);
                 return Ok(token);
             }
@@ -86,7 +83,6 @@ namespace CareerPathfinder.API.Controllers
 
             try
             {
-                // Kullanıcıyı e-posta ile bul
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if (user == null)
                 {
@@ -94,14 +90,12 @@ namespace CareerPathfinder.API.Controllers
                     return Unauthorized(new { message = "E-posta veya şifre hatalı." });
                 }
 
-                // Kullanıcı aktif mi kontrol et
                 if (!user.IsActive)
                 {
                     _logger.LogWarning("Login failed - user inactive: {Email}", request.Email);
                     return Unauthorized(new { message = "Hesabınız pasif durumda. Lütfen yönetici ile iletişime geçin." });
                 }
 
-                // Şifreyi kontrol et
                 var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
                 if (!isPasswordValid)
                 {
@@ -109,14 +103,12 @@ namespace CareerPathfinder.API.Controllers
                     return Unauthorized(new { message = "E-posta veya şifre hatalı." });
                 }
 
-                // LastLoginAt güncelle
                 user.LastLoginAt = DateTime.UtcNow;
                 await _userManager.UpdateAsync(user);
 
                 _logger.LogInformation("User logged in successfully: {Email} (UserID: {UserId})",
                     request.Email, user.Id);
 
-                // JWT token oluştur ve döndür
                 var token = await GenerateJwtToken(user);
                 return Ok(token);
             }
@@ -136,7 +128,6 @@ namespace CareerPathfinder.API.Controllers
                 var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!);
                 var tokenExpiry = DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryInMinutes"]));
 
-                // JWT token için claims oluştur (yeni alanlar dahil)
                 var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),
@@ -152,14 +143,12 @@ namespace CareerPathfinder.API.Controllers
             new Claim("gender", user.Gender.ToString())
         };
 
-                // Kullanıcının rollerini claims'e ekle
                 var roles = await _userManager.GetRolesAsync(user);
                 foreach (var role in roles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role));
                 }
 
-                // JWT token oluştur
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),

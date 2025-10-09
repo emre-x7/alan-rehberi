@@ -77,7 +77,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 _ => query.SortDescending ? usersQuery.OrderByDescending(u => u.CreatedAt) : usersQuery.OrderBy(u => u.CreatedAt)
             };
 
-            // Sayfalama
             var totalCount = await usersQuery.CountAsync();
             var users = await usersQuery
                 .Skip((query.Page - 1) * query.PageSize)
@@ -174,7 +173,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Kullanıcı bulunamadı." });
             }
 
-            // Geçerli roller var mı kontrol et
             foreach (var roleName in request.Roles)
             {
                 if (!await _roleManager.RoleExistsAsync(roleName))
@@ -183,7 +181,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 }
             }
 
-            // Mevcut rolleri al ve güncelle
             var currentRoles = await _userManager.GetRolesAsync(user);
             var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
             if (!removeResult.Succeeded)

@@ -73,7 +73,6 @@ namespace CareerPathfinder.API.Controllers.Admin
         {
             Console.WriteLine($"CreateCareerDetail - CareerId: {request.CareerId}");
 
-            // Career var mı kontrol et
             var career = await _context.Careers.FindAsync(request.CareerId);
             if (career == null)
             {
@@ -81,7 +80,6 @@ namespace CareerPathfinder.API.Controllers.Admin
                 return NotFound(new { message = "Kariyer bulunamadı." });
             }
 
-            // Bu career için zaten detail var mı?
             var existingDetail = await _context.CareerDetails
                 .FirstOrDefaultAsync(cd => cd.CareerId == request.CareerId);
 
@@ -108,7 +106,6 @@ namespace CareerPathfinder.API.Controllers.Admin
             _context.CareerDetails.Add(careerDetail);
             await _context.SaveChangesAsync();
 
-            // Tekrar getirerek ilişkili verileri dahil et
             var createdDetail = await _context.CareerDetails
                 .Include(cd => cd.Career)
                 .FirstOrDefaultAsync(cd => cd.Id == careerDetail.Id);
@@ -176,7 +173,6 @@ namespace CareerPathfinder.API.Controllers.Admin
             return Ok(new { message = "Kariyer detayı başarıyla silindi." });
         }
 
-        // Yardımcı metodlar
         private string SerializeResources(List<ResourceItemDto> resources)
         {
             return JsonSerializer.Serialize(resources, new JsonSerializerOptions

@@ -74,7 +74,6 @@ namespace CareerPathfinder.API.Middleware
                     type = "Internal Server Error";
                     message = "Beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
 
-                    // Development ortamında detaylı hata bilgisi göster
                     if (_env.IsDevelopment())
                     {
                         detail = exception.ToString();
@@ -82,11 +81,9 @@ namespace CareerPathfinder.API.Middleware
                     break;
             }
 
-            // Loglama
             _logger.LogError("Exception Type: {Type}, Message: {Message}, StackTrace: {StackTrace}",
                 type, exception.Message, exception.StackTrace);
 
-            // Response oluştur
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;
 

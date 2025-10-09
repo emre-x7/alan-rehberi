@@ -22,7 +22,6 @@ namespace CareerPathfinder.Core.Entities
         public virtual Department Department { get; set; } = null!;
         public virtual CareerDetail? CareerDetail { get; set; }
 
-        // Navigation Properties
         public virtual ICollection<CareerScore> CareerScores { get; set; } = new List<CareerScore>();
         public virtual ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
     }

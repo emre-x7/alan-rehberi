@@ -11,7 +11,7 @@ namespace CareerPathfinder.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // Sadece authenticated kullanıcılar erişebilir
+    [Authorize] 
     public class QuestionsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,11 +23,9 @@ namespace CareerPathfinder.API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Questions/department/5
         [HttpGet("department/{departmentId}")]
         public async Task<ActionResult<IEnumerable<QuestionDto>>> GetQuestionsByDepartment(int departmentId)
         {
-            // Department var mı kontrol et
             var departmentExists = await _context.Departments
                 .AnyAsync(d => d.Id == departmentId);
 
@@ -36,7 +34,6 @@ namespace CareerPathfinder.API.Controllers
                 throw new NotFoundException("Belirtilen bölüm bulunamadı.");
             }
 
-            // Soruları getir (sadece aktif olanlar ve sıralı)
             var questions = await _context.Questions
                 .Where(q => q.DepartmentId == departmentId && q.IsActive)
                 .OrderBy(q => q.Order)
@@ -46,7 +43,6 @@ namespace CareerPathfinder.API.Controllers
             return Ok(questionDtos);
         }
 
-        // GET: api/Questions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<QuestionDto>> GetQuestion(int id)
         {

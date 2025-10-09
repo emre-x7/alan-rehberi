@@ -37,33 +37,28 @@ namespace CareerPathfinder.Infrastructure.Services
                         {
                             column.Spacing(20);
 
-                            // 1. Özet Bölümü
                             column.Item().Background(Colors.Grey.Lighten3).Padding(10).Column(summaryColumn =>
                             {
                                 summaryColumn.Item().Text("Kariyer Özeti").SemiBold().FontSize(16);
                                 summaryColumn.Item().Text(careerDetail.Summary);
                             });
 
-                            // 2. Çalışma Alanları
                             column.Item().Column(workColumn =>
                             {
                                 workColumn.Item().Text("Çalışma Alanları").SemiBold().FontSize(16);
                                 workColumn.Item().Text(careerDetail.WorkAreas);
                             });
 
-                            // 3. Maaş Bilgileri
                             column.Item().Column(salaryColumn =>
                             {
                                 salaryColumn.Item().Text("Ortalama Maaş Aralıkları").SemiBold().FontSize(16);
                                 salaryColumn.Item().Text(careerDetail.AverageSalary);
                             });
 
-                            // 4. Kaynak Önerileri
                             AddResourcesSection(column, "Başlangıç Seviye Kaynaklar", careerDetail.BeginnerResources);
                             AddResourcesSection(column, "Orta Seviye Kaynaklar", careerDetail.IntermediateResources);
                             AddResourcesSection(column, "İleri Seviye Kaynaklar", careerDetail.AdvancedResources);
 
-                            // 5. Proje Önerileri
                             AddProjectsSection(column, careerDetail.ProjectIdeas);
                         });
 
