@@ -21,7 +21,7 @@ AlanRehberi, üniversite öğrencilerinin mezuniyet sonrası kariyer yönelimler
 ## 🧠 Puanlama Mantığı
 
 ### Temel Formül
-```javascript
+```
 ToplamPuan = ∑(KullanıcıCevabı × MeslekAğırlığı)
 MaxİdealPuan = ∑(5 × MeslekAğırlığı)
 UyumYüzdesi = (ToplamPuan / MaxİdealPuan) × 100
@@ -49,14 +49,58 @@ CareerPathfinder/
 ```
 
 ##  📊 Veritabanı Modelleri
-```text
-Model	Açıklama
-Department	Bölümler (YBS, Endüstri Müh.)
-Career	Meslekler (Backend Developer, Data Engineer)
-Question	Likert ölçeğinde sorular
-CareerScore	Soru-Meslek puan ilişkileri
-Questionnaire	Anket oturumları
-Answer	Kullanıcı cevapları
-TestResult	Hesaplanan sonuçlar
+```
+Model	            Açıklama
+Department	        Bölümler (YBS, Endüstri Müh.)
+Career	            Meslekler (Backend Developer, Data Engineer)
+Question	        Likert ölçeğinde sorular
+CareerScore	        Soru-Meslek puan ilişkileri
+Questionnaire	    Anket oturumları
+Answer	            Kullanıcı cevapları
+TestResult	        Hesaplanan sonuçlar
 ```
 
+## 📦 Kurulum
+```
+Gereksinimler
+.NET 9 SDK
+PostgreSQL 14+
+Visual Studio 2022 veya VS Code
+
+Adımlar
+1. Repository'yi klonlayın
+git clone https://github.com/emre-x7/alan-rehberi.git
+cd CareerPathfinder
+
+2. Database ayarlarını yapın
+PostgreSQL'de yeni database oluşturun
+appsettings.json dosyasını düzenleyin:
+
+3. Database migration'ları çalıştırın
+dotnet ef database update --project CareerPathfinder.Infrastructure --startup-project CareerPathfinder.API
+```
+
+## 🚀 API Endpoint'leri
+```
+Authentication
+POST /api/auth/register - Kullanıcı kaydı
+POST /api/auth/login - Kullanıcı girişi
+
+Departments
+GET /api/departments - Tüm bölümleri listele
+GET /api/departments/{id} - Spesifik bölüm detayı
+GET /api/departments/with-questions - Sadece sorusu olan bölümler
+
+Questions
+GET /api/questions/department/{id} - Bölüme ait sorular
+GET /api/questions/{id} - Tekil soru detayı
+
+Questionnaire
+POST /api/questionnaire/start - Anket başlatma
+POST /api/questionnaire/submit-answers - Cevapları kaydetme
+POST /api/questionnaire/complete/{id} - Anketi tamamlama ve sonuçları hesaplama
+
+Results
+GET /api/results/user - Kullanıcı sonuçları
+GET /api/results/questionnaire/{id} - Detaylı anket raporu
+GET /api/results/top-careers - En iyi 5 kariyer
